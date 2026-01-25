@@ -17,7 +17,6 @@ export function BaseLayout() {
         /* Outer Layer: Handles Gradient/Background and Centering for Desktop */
         <div className="min-h-screen w-full flex justify-center bg-transparent">
 
-            /* Main App Container: Full width on mobile, Fixed width on Desktop */
             <main className="w-full md:max-w-[480px] min-h-screen bg-white shadow-2xl relative pb-28 md:rounded-[40px] md:my-8 md:min-h-[calc(100vh-4rem)] md:h-fit overflow-hidden">
                 <div className="h-full overflow-y-auto custom-scrollbar">
                     <Outlet />

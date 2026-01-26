@@ -12,6 +12,17 @@ import { db } from "../../lib/db";
 
 export function Dashboard() {
     const [isAddOpen, setIsAddOpen] = useState(false);
+    const [editingTransaction, setEditingTransaction] = useState<any | null>(null);
+
+    const handleCreate = () => {
+        setEditingTransaction(null);
+        setIsAddOpen(true);
+    };
+
+    const handleEdit = (tx: any) => {
+        setEditingTransaction(tx);
+        setIsAddOpen(true);
+    };
 
     const stats = useLiveQuery(async () => {
         const accounts = await AccountRepository.getActive();
@@ -97,14 +108,14 @@ export function Dashboard() {
             </div>
 
             {/* Recent Activity */}
-            <RecentTransactions />
+            <RecentTransactions onEdit={handleEdit} />
 
             {/* FAB - Positioned relative to layout */}
             <div className="fixed bottom-24 left-0 right-0 mx-auto max-w-md z-50 pointer-events-none flex justify-end px-4">
                 <Button
                     size="icon"
                     className="h-14 w-14 rounded-full shadow-2xl bg-indigo-600 hover:bg-indigo-700 pointer-events-auto transition-transform hover:scale-105 active:scale-95"
-                    onClick={() => setIsAddOpen(true)}
+                    onClick={handleCreate}
                 >
                     <Plus className="h-8 w-8 text-white" />
                 </Button>
@@ -114,9 +125,10 @@ export function Dashboard() {
             <Dialog
                 isOpen={isAddOpen}
                 onClose={() => setIsAddOpen(false)}
-                title="Nueva Transacción"
+                title={editingTransaction ? "Editar Transacción" : "Nueva Transacción"}
             >
                 <TransactionForm
+                    transaction={editingTransaction}
                     onSuccess={() => setIsAddOpen(false)}
                     onCancel={() => setIsAddOpen(false)}
                 />

@@ -8,18 +8,20 @@ import { ArrowRightLeft, TrendingDown, TrendingUp } from "lucide-react";
 import { cn } from "../../lib/utils";
 
 interface TransactionFormProps {
+    transaction?: any; // Using any to avoid type circular dep issues temporarily, or import Transaction
     onSuccess: () => void;
     onCancel: () => void;
 }
 
-export function TransactionForm({ onSuccess, onCancel }: TransactionFormProps) {
-    const [type, setType] = useState<TransactionType>("EXPENSE");
-    const [amount, setAmount] = useState("");
-    const [selectedCategory, setSelectedCategory] = useState<string>("");
-    const [selectedAccount, setSelectedAccount] = useState<string>("");
-    const [toAccount, setToAccount] = useState<string>("");
-    const [date, setDate] = useState(new Date().toISOString().split('T')[0]);
-    const [note, setNote] = useState("");
+export function TransactionForm({ transaction, onSuccess, onCancel }: TransactionFormProps) {
+    // Initialize state with transaction data or defaults
+    const [type, setType] = useState<TransactionType>(transaction?.type || "EXPENSE");
+    const [amount, setAmount] = useState(transaction?.amount?.toString() || "");
+    const [selectedCategory, setSelectedCategory] = useState<string>(transaction?.categoryId || "");
+    const [selectedAccount, setSelectedAccount] = useState<string>(transaction?.accountId || "");
+    const [toAccount, setToAccount] = useState<string>(transaction?.transferToAccountId || "");
+    const [date, setDate] = useState(transaction?.date || new Date().toISOString().split('T')[0]);
+    const [note, setNote] = useState(transaction?.note || "");
     const [loading, setLoading] = useState(false);
 
     const data = useLiveQuery(async () => {
@@ -42,16 +44,22 @@ export function TransactionForm({ onSuccess, onCancel }: TransactionFormProps) {
 
         setLoading(true);
         try {
-            await TransactionRepository.create({
+            const payload = {
                 type,
                 amount: parseFloat(amount),
                 accountId: selectedAccount,
-                categoryId: selectedCategory || (type === 'TRANSFER' ? 'transfer-system' : 'uncategorized'), // simplified
+                categoryId: selectedCategory || (type === 'TRANSFER' ? 'transfer-system' : 'uncategorized'),
                 transferToAccountId: type === 'TRANSFER' ? toAccount : undefined,
-                date, // ISO date string YYYY-MM-DD
+                date,
                 note,
-                status: 'CLEARED' // Default
-            } as any);
+                status: 'CLEARED'
+            };
+
+            if (transaction?.id) {
+                await TransactionRepository.update(transaction.id, payload as any);
+            } else {
+                await TransactionRepository.create(payload as any);
+            }
             onSuccess();
         } catch (error) {
             console.error(error);
@@ -97,7 +105,7 @@ export function TransactionForm({ onSuccess, onCancel }: TransactionFormProps) {
                         onChange={(e) => setAmount(e.target.value)}
                         placeholder="0.00"
                         className="text-3xl h-16 pl-8 font-bold"
-                        autoFocus
+                        autoFocus={!transaction} // Only autofocus on new
                         required
                     />
                 </div>
@@ -172,7 +180,7 @@ export function TransactionForm({ onSuccess, onCancel }: TransactionFormProps) {
             <div className="flex gap-2 justify-end pt-4">
                 <Button type="button" variant="ghost" onClick={onCancel}>Cancelar</Button>
                 <Button type="submit" disabled={loading} className="w-full">
-                    Guardar Transacción
+                    {transaction ? 'Actualizar' : 'Guardar'} Transacción
                 </Button>
             </div>
         </form>

@@ -51,6 +51,10 @@ export const TransactionRepository = {
         return await db.transactions.orderBy('date').reverse().limit(limit).toArray();
     },
 
+    update: async (id: string, updates: Partial<Transaction>) => {
+        return await db.transactions.update(id, updates);
+    },
+
     delete: async (id: string) => {
         return await db.transactions.delete(id);
     }

@@ -37,21 +37,21 @@ export function RecentTransactions({ onEdit }: RecentTransactionsProps) {
                     className="border-0 shadow-none bg-slate-50/50 hover:bg-slate-100 transition-colors cursor-pointer active:scale-[0.98]"
                     onClick={() => onEdit?.(tx)}
                 >
-                    <CardContent className="p-3 flex items-center justify-between">
-                        <div className="flex items-center gap-3">
-                            <div className="text-2xl w-10 text-center">
-                                {tx.type === 'TRANSFER' ? <ArrowRightLeft className="w-6 h-6 mx-auto text-slate-400" /> : (tx.category?.icon || '📄')}
+                    <CardContent className="p-4 flex items-center justify-between">
+                        <div className="flex items-center gap-4">
+                            <div className="text-3xl w-12 text-center">
+                                {tx.type === 'TRANSFER' ? <ArrowRightLeft className="w-8 h-8 mx-auto text-slate-400" /> : (tx.category?.icon || '📄')}
                             </div>
                             <div>
-                                <p className="font-medium text-sm flex items-baseline gap-2">
+                                <p className="font-medium text-base flex items-baseline gap-2">
                                     {tx.category?.name || (tx.type === 'TRANSFER' ? 'Transferencia' : 'Desconocido')}
                                     {/* Show note in smaller font if exists */}
-                                    {tx.note && <span className="text-[10px] text-slate-400 font-normal truncate max-w-[120px]">{tx.note}</span>}
+                                    {tx.note && <span className="text-xs text-slate-400 font-normal truncate max-w-[140px]">{tx.note}</span>}
                                 </p>
-                                <p className="text-xs text-slate-500">{format(parseISO(tx.date), 'MMM d')} • {tx.account?.name}</p>
+                                <p className="text-sm text-slate-500">{format(parseISO(tx.date), 'MMM d')} • {tx.account?.name}</p>
                             </div>
                         </div>
-                        <span className={`font-mono font-medium ${tx.type === 'INCOME' ? 'text-green-600' :
+                        <span className={`font-mono text-lg font-bold ${tx.type === 'INCOME' ? 'text-green-600' :
                             tx.type === 'EXPENSE' ? 'text-slate-900' : 'text-blue-600'
                             }`}>
                             {tx.type === 'EXPENSE' ? '-' : '+'}{tx.amount}

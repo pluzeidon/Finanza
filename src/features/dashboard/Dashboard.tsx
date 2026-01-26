@@ -50,10 +50,10 @@ export function Dashboard() {
                     <Card className="border-0 shadow-lg shadow-indigo-500/10 bg-gradient-to-br from-blue-400 to-indigo-500 text-white rounded-3xl overflow-hidden relative">
                         <CardContent className="p-5 flex flex-col justify-between h-32">
                             <div className="z-10">
-                                <p className="text-xs font-medium opacity-80 uppercase tracking-widest">Ingresos</p>
-                                <p className="text-xl font-bold mt-1">+{stats?.cashFlow.income.toLocaleString()}</p>
+                                <p className="text-sm font-medium opacity-80 uppercase tracking-widest">Ingresos</p>
+                                <p className="text-3xl font-bold mt-1">+{stats?.cashFlow.income.toLocaleString()}</p>
                             </div>
-                            <div className="text-[10px] opacity-60 font-light">Total Mensual</div>
+                            <div className="text-xs opacity-60 font-light">Total Mensual</div>
 
                             {/* Decor Circle */}
                             <div className="absolute -bottom-4 -right-4 w-20 h-20 bg-white/10 rounded-full blur-xl"></div>
@@ -64,10 +64,10 @@ export function Dashboard() {
                     <Card className="border-0 shadow-lg shadow-rose-500/10 bg-gradient-to-br from-rose-400 to-pink-500 text-white rounded-3xl overflow-hidden relative">
                         <CardContent className="p-5 flex flex-col justify-between h-32">
                             <div className="z-10">
-                                <p className="text-xs font-medium opacity-80 uppercase tracking-widest">Gastos</p>
-                                <p className="text-xl font-bold mt-1">-{stats?.cashFlow.expense.toLocaleString()}</p>
+                                <p className="text-sm font-medium opacity-80 uppercase tracking-widest">Gastos</p>
+                                <p className="text-3xl font-bold mt-1">-{stats?.cashFlow.expense.toLocaleString()}</p>
                             </div>
-                            <div className="text-[10px] opacity-60 font-light">Total Mensual</div>
+                            <div className="text-xs opacity-60 font-light">Total Mensual</div>
 
                             {/* Decor Circle */}
                             <div className="absolute -top-4 -right-4 w-16 h-16 bg-white/10 rounded-full blur-xl"></div>
@@ -78,10 +78,10 @@ export function Dashboard() {
                     <Card className="border-0 shadow-lg shadow-cyan-500/10 bg-gradient-to-br from-cyan-400 to-blue-400 text-white rounded-3xl overflow-hidden relative">
                         <CardContent className="p-5 flex flex-col justify-between h-32">
                             <div className="z-10">
-                                <p className="text-xs font-medium opacity-80 uppercase tracking-widest">Patrimonio</p>
-                                <p className="text-xl font-bold mt-1">{stats ? new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(stats.netWorth) : '...'}</p>
+                                <p className="text-sm font-medium opacity-80 uppercase tracking-widest">Patrimonio</p>
+                                <p className="text-3xl font-bold mt-1">{stats ? new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(stats.netWorth) : '...'}</p>
                             </div>
-                            <div className="text-[10px] opacity-60 font-light">Balance Total</div>
+                            <div className="text-xs opacity-60 font-light">Balance Total</div>
                         </CardContent>
                     </Card>
 
@@ -89,14 +89,14 @@ export function Dashboard() {
                     <Card className="border-0 shadow-lg shadow-emerald-500/10 bg-gradient-to-br from-emerald-400 to-teal-500 text-white rounded-3xl overflow-hidden relative">
                         <CardContent className="p-5 flex flex-col justify-between h-32">
                             <div className="z-10">
-                                <p className="text-xs font-medium opacity-80 uppercase tracking-widest">Ahorro</p>
-                                <p className="text-xl font-bold mt-1">
+                                <p className="text-sm font-medium opacity-80 uppercase tracking-widest">Ahorro</p>
+                                <p className="text-3xl font-bold mt-1">
                                     {(stats && (stats.cashFlow.income - stats.cashFlow.expense) > 0)
                                         ? '+' + (stats.cashFlow.income - stats.cashFlow.expense).toLocaleString()
                                         : '0'}
                                 </p>
                             </div>
-                            <div className="text-[10px] opacity-60 font-light">Flujo Neto</div>
+                            <div className="text-xs opacity-60 font-light">Flujo Neto</div>
                         </CardContent>
                     </Card>
                 </div>

@@ -63,10 +63,11 @@ export function RecentTransactions({ onEdit }: RecentTransactionsProps) {
                                         {tx.type === 'TRANSFER' ? <ArrowRightLeft size={20} /> : (tx.category?.icon || '📄')}
                                     </div>
                                 </div>
-                                <div className="flex flex-col">
-                                    <h4 className="text-white text-sm font-semibold">{tx.payee || tx.category?.name || 'Movimiento'}</h4>
-                                    <p className="text-slate-500 text-xs">
-                                        {tx.category?.name} • {new Date(tx.date).toLocaleDateString('es-ES', { day: 'numeric', month: 'short' })}
+                                <div className="flex flex-col overflow-hidden">
+                                    <h4 className="text-white text-sm font-semibold truncate">{tx.payee || tx.category?.name || 'Movimiento'}</h4>
+                                    <p className="text-slate-500 text-xs truncate">
+                                        {tx.account?.name} • {new Date(tx.date).toLocaleDateString('es-ES', { day: 'numeric', month: 'short' })}
+                                        {tx.note && <span className="text-slate-600"> • {tx.note}</span>}
                                     </p>
                                 </div>
                             </div>

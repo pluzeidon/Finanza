@@ -89,6 +89,11 @@ export class FinanzaDB extends Dexie {
             goals: 'id, deadline'
         });
 
+        // Schema Version 2: Added transferToAccountId index
+        this.version(2).stores({
+            transactions: 'id, accountId, transferToAccountId, categoryId, date, type, status, [accountId+date], [categoryId+date]'
+        });
+
         // Hooks for auto-generating IDs and timestamps
         this.accounts.hook('creating', (_primKey, obj) => {
             obj.id = obj.id || uuidv4();

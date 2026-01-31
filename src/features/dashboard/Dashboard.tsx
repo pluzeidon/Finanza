@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useLiveQuery } from "dexie-react-hooks";
 import { AccountRepository } from "../../lib/repositories";
 import { FinanceEngine } from "../../lib/finance";
-import { Button } from "../../components/ui/button";
 import { Dialog } from "../../components/ui/dialog";
 import { TransactionForm } from "../transactions/TransactionForm";
 import { RecentTransactions } from "../transactions/RecentTransactions";

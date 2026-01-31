@@ -1,9 +1,8 @@
 import { useState, useMemo } from "react";
 import { useLiveQuery } from "dexie-react-hooks";
 import { TransactionRepository, AccountRepository, CategoryRepository } from "../../lib/repositories";
-import { Button } from "../../components/ui/button";
 import { type TransactionType } from "../../lib/db";
-import { ArrowRightLeft, TrendingDown, TrendingUp, Calendar, FileText } from "lucide-react";
+import { Calendar, FileText } from "lucide-react";
 import { cn } from "../../lib/utils";
 
 interface TransactionFormProps {

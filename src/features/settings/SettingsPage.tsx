@@ -1,6 +1,5 @@
 import { useRef, useState } from "react";
 import { DataManager } from "../../lib/dataManager";
-import { Card, CardContent, CardHeader, CardTitle } from "../../components/ui/card";
 import { Button } from "../../components/ui/button";
 import { Download, Upload, ShieldCheck, Trash2 } from "lucide-react";
 import { CategoryManager } from "../categories/CategoryManager";

@@ -47,10 +47,10 @@ export function SpendingChart({ data }: SpendingChartProps) {
                         dataKey="amount"
                         stroke="none"
                     >
-                        {chartData.map((entry, index) => (
+                        {chartData.map((_, index) => (
                             <Cell
                                 key={`cell-${index}`}
-                                fill={entry.color}
+                                fill={chartData[index].color}
                                 stroke="rgba(0,0,0,0.2)"
                                 strokeWidth={0} // Removed border for cleaner look, or use dark border
                                 className="hover:opacity-80 transition-opacity"

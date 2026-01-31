@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useLiveQuery } from "dexie-react-hooks";
 import { AccountRepository } from "../../lib/repositories";
-import { Button } from "../../components/ui/button";
 import { Plus, Wallet, CreditCard, Banknote, Building2, TrendingUp, Layers } from "lucide-react";
 import { Dialog } from "../../components/ui/dialog";
 import { AccountForm } from "./AccountForm";

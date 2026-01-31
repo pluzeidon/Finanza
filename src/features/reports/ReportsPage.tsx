@@ -3,7 +3,6 @@ import { db } from "../../lib/db";
 import { CategoryRepository } from "../../lib/repositories";
 import { FinanceEngine } from "../../lib/finance";
 import { SpendingChart } from "./SpendingChart";
-import { Card, CardContent, CardHeader, CardTitle } from "../../components/ui/card";
 
 export function ReportsPage() {
     const reportData = useLiveQuery(async () => {
@@ -30,7 +29,7 @@ export function ReportsPage() {
 
                 {/* Detailed List */}
                 <div className="mt-8 space-y-4">
-                    {reportData?.spendingByCategory.map((item, index) => (
+                    {reportData?.spendingByCategory.map((item) => (
                         <div key={item.categoryId} className="flex items-center justify-between group">
                             <div className="flex items-center gap-3">
                                 <div className="size-10 rounded-xl flex items-center justify-center bg-white/5 border border-white/5 group-hover:bg-white/10 transition-colors">

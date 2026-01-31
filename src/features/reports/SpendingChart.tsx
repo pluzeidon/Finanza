@@ -73,7 +73,7 @@ export function SpendingChart({ data }: SpendingChartProps) {
                         align="right"
                         verticalAlign="middle"
                         iconType="circle"
-                        formatter={(value, entry: any) => {
+                        formatter={(value) => {
                             return <span className="text-xs text-slate-300 font-medium ml-1">{value}</span>;
                         }}
                     />

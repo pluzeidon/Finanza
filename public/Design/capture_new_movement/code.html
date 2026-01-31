@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Capture New Movement</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Noto+Sans:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#0ddff2",
+                        "background-light": "#f5f8f8",
+                        "background-dark": "#102122",
+                        "glass": "rgba(255, 255, 255, 0.05)",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"],
+                        "body": ["Noto Sans", "sans-serif"],
+                    },
+                    boxShadow: {
+                        "neon": "0 0 10px rgba(13, 223, 242, 0.5), 0 0 20px rgba(13, 223, 242, 0.3)",
+                        "neon-strong": "0 0 15px rgba(13, 223, 242, 0.7), 0 0 30px rgba(13, 223, 242, 0.4)",
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom scrollbar for horizontal scrolling */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .holo-card {
+            background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.02) 100%);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: inset 0 0 15px rgba(255,255,255,0.05);
+        }
+        
+        .holo-card-active {
+            border-color: #0ddff2;
+            box-shadow: 0 0 15px rgba(13, 223, 242, 0.2), inset 0 0 10px rgba(13, 223, 242, 0.1);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-white antialiased min-h-screen flex flex-col overflow-x-hidden selection:bg-primary selection:text-background-dark">
+<!-- Top App Bar -->
+<header class="sticky top-0 z-50 flex items-center justify-between p-4 pb-2 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-md">
+<button class="flex items-center justify-center size-10 rounded-full hover:bg-black/5 dark:hover:bg-white/10 transition-colors">
+<span class="material-symbols-outlined text-2xl">close</span>
+</button>
+<h2 class="text-sm font-bold tracking-[0.2em] uppercase text-center flex-1 pr-10 text-slate-500 dark:text-slate-400">New Movement</h2>
+</header>
+<!-- Main Content -->
+<main class="flex-1 flex flex-col w-full max-w-md mx-auto px-4 pb-24 space-y-8">
+<!-- Amount Display -->
+<section class="flex flex-col items-center justify-center pt-6 pb-2">
+<div class="relative group">
+<span class="absolute -left-6 top-2 text-2xl text-slate-400 dark:text-slate-600 font-light">$</span>
+<input class="bg-transparent border-none p-0 text-center text-6xl font-light tracking-tighter text-slate-900 dark:text-white focus:ring-0 w-full max-w-[300px] placeholder-slate-700 caret-primary drop-shadow-[0_0_8px_rgba(255,255,255,0.3)] dark:drop-shadow-[0_0_15px_rgba(13,223,242,0.4)]" placeholder="0.00" type="text" value="1,250.00"/>
+</div>
+<p class="text-xs uppercase tracking-widest text-primary mt-2 font-bold animate-pulse">Ready for capture</p>
+</section>
+<!-- Transaction Type Toggle -->
+<section class="flex justify-center w-full">
+<div class="glass-panel p-1 rounded-xl flex w-full max-w-xs relative">
+<div class="absolute left-1 top-1 w-[calc(50%-4px)] h-[calc(100%-8px)] bg-primary/20 border border-primary/50 rounded-lg shadow-neon transition-transform duration-300 ease-out translate-x-0"></div>
+<button class="relative z-10 flex-1 py-3 text-sm font-bold uppercase tracking-wider text-primary text-center">
+                    Expense
+                </button>
+<button class="relative z-10 flex-1 py-3 text-sm font-medium uppercase tracking-wider text-slate-500 dark:text-slate-400 hover:text-white transition-colors text-center">
+                    Income
+                </button>
+</div>
+</section>
+<!-- Categories Grid -->
+<section class="space-y-4">
+<h3 class="text-slate-900 dark:text-white text-lg font-bold tracking-wide flex items-center gap-2">
+<span class="w-1 h-5 bg-primary rounded-full shadow-neon"></span>
+                Category
+            </h3>
+<div class="grid grid-cols-4 gap-4">
+<!-- Active Item -->
+<button class="flex flex-col items-center gap-2 group">
+<div class="size-16 rounded-2xl bg-primary/10 border border-primary text-primary shadow-neon flex items-center justify-center transition-all duration-300 transform group-hover:scale-105">
+<span class="material-symbols-outlined text-3xl">restaurant</span>
+</div>
+<span class="text-xs font-medium text-primary tracking-wide">Food</span>
+</button>
+<!-- Inactive Items -->
+<button class="flex flex-col items-center gap-2 group">
+<div class="size-16 rounded-2xl bg-white/5 border border-white/10 text-slate-400 group-hover:text-white group-hover:border-white/30 flex items-center justify-center transition-all duration-300">
+<span class="material-symbols-outlined text-3xl">directions_car</span>
+</div>
+<span class="text-xs font-medium text-slate-500 group-hover:text-slate-300 tracking-wide">Transport</span>
+</button>
+<button class="flex flex-col items-center gap-2 group">
+<div class="size-16 rounded-2xl bg-white/5 border border-white/10 text-slate-400 group-hover:text-white group-hover:border-white/30 flex items-center justify-center transition-all duration-300">
+<span class="material-symbols-outlined text-3xl">shopping_bag</span>
+</div>
+<span class="text-xs font-medium text-slate-500 group-hover:text-slate-300 tracking-wide">Shopping</span>
+</button>
+<button class="flex flex-col items-center gap-2 group">
+<div class="size-16 rounded-2xl bg-white/5 border border-white/10 text-slate-400 group-hover:text-white group-hover:border-white/30 flex items-center justify-center transition-all duration-300">
+<span class="material-symbols-outlined text-3xl">receipt_long</span>
+</div>
+<span class="text-xs font-medium text-slate-500 group-hover:text-slate-300 tracking-wide">Bills</span>
+</button>
+<button class="flex flex-col items-center gap-2 group">
+<div class="size-16 rounded-2xl bg-white/5 border border-white/10 text-slate-400 group-hover:text-white group-hover:border-white/30 flex items-center justify-center transition-all duration-300">
+<span class="material-symbols-outlined text-3xl">movie</span>
+</div>
+<span class="text-xs font-medium text-slate-500 group-hover:text-slate-300 tracking-wide">Fun</span>
+</button>
+<button class="flex flex-col items-center gap-2 group">
+<div class="size-16 rounded-2xl bg-white/5 border border-white/10 text-slate-400 group-hover:text-white group-hover:border-white/30 flex items-center justify-center transition-all duration-300">
+<span class="material-symbols-outlined text-3xl">flight</span>
+</div>
+<span class="text-xs font-medium text-slate-500 group-hover:text-slate-300 tracking-wide">Travel</span>
+</button>
+<button class="flex flex-col items-center gap-2 group">
+<div class="size-16 rounded-2xl bg-white/5 border border-white/10 text-slate-400 group-hover:text-white group-hover:border-white/30 flex items-center justify-center transition-all duration-300">
+<span class="material-symbols-outlined text-3xl">fitness_center</span>
+</div>
+<span class="text-xs font-medium text-slate-500 group-hover:text-slate-300 tracking-wide">Health</span>
+</button>
+<button class="flex flex-col items-center gap-2 group">
+<div class="size-16 rounded-2xl bg-white/5 border border-dashed border-white/20 text-slate-500 group-hover:text-primary group-hover:border-primary/50 flex items-center justify-center transition-all duration-300">
+<span class="material-symbols-outlined text-3xl">add</span>
+</div>
+<span class="text-xs font-medium text-slate-500 group-hover:text-primary tracking-wide">More</span>
+</button>
+</div>
+</section>
+<!-- Account Selector (Holographic Cards) -->
+<section class="space-y-4">
+<h3 class="text-slate-900 dark:text-white text-lg font-bold tracking-wide flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="w-1 h-5 bg-slate-700 dark:bg-slate-600 rounded-full"></span>
+                    Source
+                </div>
+<span class="text-xs font-medium text-primary uppercase tracking-wider cursor-pointer">Manage</span>
+</h3>
+<div class="flex overflow-x-auto gap-4 no-scrollbar pb-2 -mx-4 px-4 snap-x">
+<!-- Card 1 (Active) -->
+<div class="snap-center shrink-0 w-48 h-28 holo-card holo-card-active rounded-xl p-4 flex flex-col justify-between relative overflow-hidden group cursor-pointer">
+<div class="absolute top-0 right-0 p-2 opacity-50">
+<span class="material-symbols-outlined text-white">contactless</span>
+</div>
+<div class="z-10">
+<p class="text-[10px] uppercase tracking-widest text-primary font-bold mb-1">Main Vault</p>
+<p class="text-white font-bold text-lg tracking-widest">**** 4590</p>
+</div>
+<div class="z-10 flex justify-between items-end">
+<p class="text-xs text-slate-300">Exp 12/28</p>
+<div class="size-2 rounded-full bg-primary shadow-neon animate-pulse"></div>
+</div>
+<!-- decorative gradient blob -->
+<div class="absolute -bottom-10 -right-10 w-24 h-24 bg-primary/20 blur-2xl rounded-full"></div>
+</div>
+<!-- Card 2 -->
+<div class="snap-center shrink-0 w-48 h-28 holo-card rounded-xl p-4 flex flex-col justify-between relative overflow-hidden group cursor-pointer opacity-70 hover:opacity-100 transition-opacity">
+<div class="absolute top-0 right-0 p-2 opacity-30">
+<span class="material-symbols-outlined text-white">currency_bitcoin</span>
+</div>
+<div class="z-10">
+<p class="text-[10px] uppercase tracking-widest text-slate-400 font-bold mb-1">Crypto Wallet</p>
+<p class="text-slate-200 font-bold text-lg tracking-widest">ETH ****</p>
+</div>
+<div class="z-10 flex justify-between items-end">
+<p class="text-xs text-slate-400">Synced</p>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="snap-center shrink-0 w-48 h-28 holo-card rounded-xl p-4 flex flex-col justify-between relative overflow-hidden group cursor-pointer opacity-70 hover:opacity-100 transition-opacity">
+<div class="absolute top-0 right-0 p-2 opacity-30">
+<span class="material-symbols-outlined text-white">savings</span>
+</div>
+<div class="z-10">
+<p class="text-[10px] uppercase tracking-widest text-slate-400 font-bold mb-1">Savings</p>
+<p class="text-slate-200 font-bold text-lg tracking-widest">**** 8821</p>
+</div>
+<div class="z-10 flex justify-between items-end">
+<p class="text-xs text-slate-400">Locked</p>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Bottom Action -->
+<footer class="fixed bottom-0 left-0 w-full p-6 bg-gradient-to-t from-background-dark via-background-dark/95 to-transparent z-40">
+<button class="w-full h-14 bg-primary rounded-xl text-background-dark font-bold text-lg tracking-widest uppercase shadow-neon-strong hover:shadow-[0_0_25px_rgba(13,223,242,0.9)] transition-all transform active:scale-[0.98] flex items-center justify-center gap-3 group">
+<span>Authorize Transfer</span>
+<span class="material-symbols-outlined group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</button>
+</footer>
+<!-- Decorative background elements -->
+<div class="fixed top-20 left-1/2 -translate-x-1/2 w-full max-w-lg h-96 bg-primary/5 rounded-full blur-[100px] pointer-events-none z-0"></div>
+<div class="fixed bottom-0 right-0 w-64 h-64 bg-purple-500/5 rounded-full blur-[80px] pointer-events-none z-0"></div>
+</body></html>

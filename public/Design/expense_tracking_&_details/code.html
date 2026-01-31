@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Expense Tracking</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#0da6f2", // Cyan
+                        "primary-glow": "rgba(13, 166, 242, 0.5)",
+                        "accent-magenta": "#d946ef",
+                        "accent-lime": "#bef264",
+                        "accent-orange": "#fb923c",
+                        "background-dark": "#050a14", // Deep blue/black
+                        "glass-border": "rgba(255, 255, 255, 0.08)",
+                        "glass-bg": "rgba(255, 255, 255, 0.03)",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    backgroundImage: {
+                        'grid-pattern': "linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px), linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px)",
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom utilities for the futuristic feel */
+        .neon-text-cyan {
+            text-shadow: 0 0 10px rgba(13, 166, 242, 0.5);
+        }
+        .neon-box-shadow {
+            box-shadow: 0 0 15px rgba(13, 166, 242, 0.2);
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        /* Grid background setup */
+        .bg-grid {
+            background-size: 40px 40px;
+        }
+        /* Hide scrollbar for cleaner look */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-dark font-display text-white selection:bg-primary selection:text-white antialiased overflow-x-hidden">
+<!-- Background Grid Overlay -->
+<div class="fixed inset-0 pointer-events-none bg-grid-pattern bg-grid z-0 h-full w-full"></div>
+<!-- Main Content Wrapper -->
+<div class="relative z-10 flex flex-col min-h-screen pb-safe-area-bottom">
+<!-- Header -->
+<header class="sticky top-0 z-50 flex items-center justify-between p-4 bg-background-dark/80 backdrop-blur-md border-b border-glass-border">
+<button class="flex items-center justify-center w-10 h-10 rounded-full text-white hover:bg-white/10 transition-colors">
+<span class="material-symbols-outlined">arrow_back</span>
+</button>
+<h1 class="text-lg font-bold tracking-tight">Expenses</h1>
+<button class="flex items-center justify-center w-10 h-10 rounded-full text-white hover:bg-white/10 transition-colors">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</header>
+<!-- Chart Section -->
+<section class="flex flex-col items-center justify-center pt-8 pb-6 px-6">
+<div class="relative w-64 h-64 flex items-center justify-center">
+<!-- SVG Doughnut Chart -->
+<svg class="w-full h-full transform -rotate-90" viewbox="0 0 100 100">
+<!-- Background Circle -->
+<circle cx="50" cy="50" fill="transparent" r="40" stroke="#1e293b" stroke-width="8"></circle>
+<!-- Segment 1: Cyan (Primary) - 35% -->
+<circle class="drop-shadow-[0_0_6px_rgba(13,166,242,0.6)]" cx="50" cy="50" fill="transparent" r="40" stroke="#0da6f2" stroke-dasharray="88 251" stroke-dashoffset="0" stroke-linecap="round" stroke-width="8"></circle>
+<!-- Segment 2: Magenta - 25% -->
+<circle class="drop-shadow-[0_0_6px_rgba(217,70,239,0.6)]" cx="50" cy="50" fill="transparent" r="40" stroke="#d946ef" stroke-dasharray="63 251" stroke-dashoffset="-95" stroke-linecap="round" stroke-width="8"></circle>
+<!-- Segment 3: Lime - 20% -->
+<circle class="drop-shadow-[0_0_6px_rgba(190,242,100,0.6)]" cx="50" cy="50" fill="transparent" r="40" stroke="#bef264" stroke-dasharray="50 251" stroke-dashoffset="-165" stroke-linecap="round" stroke-width="8"></circle>
+<!-- Segment 4: Orange - 20% -->
+<circle class="drop-shadow-[0_0_6px_rgba(251,146,60,0.6)]" cx="50" cy="50" fill="transparent" r="40" stroke="#fb923c" stroke-dasharray="45 251" stroke-dashoffset="-220" stroke-linecap="round" stroke-width="8"></circle>
+</svg>
+<!-- Center Text -->
+<div class="absolute inset-0 flex flex-col items-center justify-center">
+<span class="text-sm text-gray-400 font-medium tracking-wide">Total Spent</span>
+<span class="text-3xl font-bold text-white tracking-tight mt-1 neon-text-cyan">$4,250</span>
+</div>
+</div>
+<!-- Legend / Breakdown Summary (Optional visual filler) -->
+<div class="flex gap-4 mt-6">
+<div class="flex items-center gap-2">
+<div class="w-3 h-3 rounded-full bg-primary shadow-[0_0_8px_rgba(13,166,242,0.8)]"></div>
+<span class="text-xs text-gray-400">Tech</span>
+</div>
+<div class="flex items-center gap-2">
+<div class="w-3 h-3 rounded-full bg-accent-magenta shadow-[0_0_8px_rgba(217,70,239,0.8)]"></div>
+<span class="text-xs text-gray-400">Food</span>
+</div>
+<div class="flex items-center gap-2">
+<div class="w-3 h-3 rounded-full bg-accent-lime shadow-[0_0_8px_rgba(190,242,100,0.8)]"></div>
+<span class="text-xs text-gray-400">Home</span>
+</div>
+</div>
+</section>
+<!-- Filters (Segmented Control) -->
+<section class="px-4 py-4">
+<div class="glass-panel rounded-xl p-1 flex">
+<button class="flex-1 py-2 px-3 rounded-lg text-sm font-medium text-gray-400 hover:text-white transition-colors">
+                    This Week
+                </button>
+<button class="flex-1 py-2 px-3 rounded-lg bg-primary/20 text-primary border border-primary/30 shadow-[0_0_10px_rgba(13,166,242,0.15)] text-sm font-semibold transition-all">
+                    This Month
+                </button>
+<button class="flex-1 py-2 px-3 rounded-lg text-sm font-medium text-gray-400 hover:text-white transition-colors">
+                    All Time
+                </button>
+</div>
+</section>
+<!-- Transactions List -->
+<section class="flex-1 px-4 pb-24">
+<h3 class="text-xl font-bold text-white mb-4 mt-2 pl-1">Recent Transactions</h3>
+<div class="flex flex-col gap-3">
+<!-- Transaction Item 1: Tech (Cyan) -->
+<div class="group glass-panel rounded-xl p-4 flex items-center justify-between hover:bg-white/5 transition-colors cursor-pointer">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full bg-primary/10 border border-primary/30 flex items-center justify-center text-primary shadow-[0_0_10px_rgba(13,166,242,0.2)]">
+<span class="material-symbols-outlined">laptop_mac</span>
+</div>
+<div class="flex flex-col">
+<span class="text-white font-semibold text-base">Apple Store</span>
+<span class="text-gray-400 text-xs mt-0.5">Today, 10:23 AM</span>
+</div>
+</div>
+<span class="text-white font-bold text-lg tracking-tight">-$1,200.00</span>
+</div>
+<!-- Transaction Item 2: Food (Magenta) -->
+<div class="group glass-panel rounded-xl p-4 flex items-center justify-between hover:bg-white/5 transition-colors cursor-pointer">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full bg-accent-magenta/10 border border-accent-magenta/30 flex items-center justify-center text-accent-magenta shadow-[0_0_10px_rgba(217,70,239,0.2)]">
+<span class="material-symbols-outlined">restaurant</span>
+</div>
+<div class="flex flex-col">
+<span class="text-white font-semibold text-base">Uber Eats</span>
+<span class="text-gray-400 text-xs mt-0.5">Yesterday, 8:15 PM</span>
+</div>
+</div>
+<span class="text-white font-bold text-lg tracking-tight">-$24.50</span>
+</div>
+<!-- Transaction Item 3: Home (Lime) -->
+<div class="group glass-panel rounded-xl p-4 flex items-center justify-between hover:bg-white/5 transition-colors cursor-pointer">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full bg-accent-lime/10 border border-accent-lime/30 flex items-center justify-center text-accent-lime shadow-[0_0_10px_rgba(190,242,100,0.2)]">
+<span class="material-symbols-outlined">home</span>
+</div>
+<div class="flex flex-col">
+<span class="text-white font-semibold text-base">Rent Payment</span>
+<span class="text-gray-400 text-xs mt-0.5">Oct 01, 2023</span>
+</div>
+</div>
+<span class="text-white font-bold text-lg tracking-tight">-$1,500.00</span>
+</div>
+<!-- Transaction Item 4: Coffee (Orange) -->
+<div class="group glass-panel rounded-xl p-4 flex items-center justify-between hover:bg-white/5 transition-colors cursor-pointer">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full bg-accent-orange/10 border border-accent-orange/30 flex items-center justify-center text-accent-orange shadow-[0_0_10px_rgba(251,146,60,0.2)]">
+<span class="material-symbols-outlined">coffee</span>
+</div>
+<div class="flex flex-col">
+<span class="text-white font-semibold text-base">Starbucks</span>
+<span class="text-gray-400 text-xs mt-0.5">Sep 28, 9:00 AM</span>
+</div>
+</div>
+<span class="text-white font-bold text-lg tracking-tight">-$5.40</span>
+</div>
+<!-- Transaction Item 5: Transport (Cyan) -->
+<div class="group glass-panel rounded-xl p-4 flex items-center justify-between hover:bg-white/5 transition-colors cursor-pointer">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full bg-primary/10 border border-primary/30 flex items-center justify-center text-primary shadow-[0_0_10px_rgba(13,166,242,0.2)]">
+<span class="material-symbols-outlined">local_taxi</span>
+</div>
+<div class="flex flex-col">
+<span class="text-white font-semibold text-base">Uber Ride</span>
+<span class="text-gray-400 text-xs mt-0.5">Sep 27, 11:30 PM</span>
+</div>
+</div>
+<span class="text-white font-bold text-lg tracking-tight">-$18.20</span>
+</div>
+</div>
+</section>
+<!-- Floating Action Button -->
+<div class="fixed bottom-6 right-6 z-50">
+<button class="w-14 h-14 rounded-full bg-primary text-white flex items-center justify-center shadow-[0_0_20px_rgba(13,166,242,0.6)] hover:scale-105 transition-transform">
+<span class="material-symbols-outlined" style="font-size: 28px;">add</span>
+</button>
+</div>
+</div>
+</body></html>

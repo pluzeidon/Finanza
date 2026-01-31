@@ -1,38 +1,80 @@
 @import "tailwindcss";
 
-:root {
-    font-family: 'Outfit', system-ui, sans-serif;
-    line-height: 1.5;
-    font-weight: 400;
+/* Import Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Noto+Sans:wght@400;500;700&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap');
 
-    font-synthesis: none;
-    text-rendering: optimizeLegibility;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+@theme {
+    /* Fonts */
+    --font-display: "Space Grotesk", sans-serif;
+    --font-body: "Noto Sans", sans-serif;
+    --font-sans: "Noto Sans", sans-serif;
+
+    /* Colors - "Quantum Finance" Palette */
+    --color-primary: #0ddff2;
+    --color-primary-dark: #00b8cc;
+    --color-background-light: #f5f8f8;
+    --color-background-dark: #102122;
+    --color-glass: rgba(255, 255, 255, 0.05);
+
+    /* Shadows */
+    --shadow-neon: 0 0 10px rgba(13, 223, 242, 0.5), 0 0 20px rgba(13, 223, 242, 0.3);
+    --shadow-neon-strong: 0 0 15px rgba(13, 223, 242, 0.7), 0 0 30px rgba(13, 223, 242, 0.4);
+}
+
+/* Global Reset */
+:root {
+    color-scheme: dark light;
 }
 
 body {
     margin: 0;
-    min-width: 320px;
-    min-height: 100vh;
-    background: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%);
+    font-family: var(--font-body);
+    /* Default to dark mode for that premium feel */
+    background-color: var(--color-background-dark);
+    color: white;
+    -webkit-font-smoothing: antialiased;
     overflow-x: hidden;
 }
 
-#root {
-    width: 100%;
+/* Typography Overrides */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: var(--font-display);
 }
 
-/* Custom Scrollbar for nicer feel */
-::-webkit-scrollbar {
-    width: 6px;
+/* --- Design System Utilities (From HTML Assets) --- */
+
+/* Glass Panel */
+.glass-panel {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
-::-webkit-scrollbar-track {
-    background: transparent;
+/* Holographic Card */
+.holo-card {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.02) 100%);
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: inset 0 0 15px rgba(255, 255, 255, 0.05);
 }
 
-::-webkit-scrollbar-thumb {
-    background: #cbd5e1;
-    border-radius: 10px;
+.holo-card-active {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 15px rgba(13, 223, 242, 0.2), inset 0 0 10px rgba(13, 223, 242, 0.1);
+}
+
+/* Scrollbar Hiding */
+.no-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+
+.no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
 }

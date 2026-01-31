@@ -165,5 +165,17 @@ export const DataManager = {
 
             reader.readAsText(file);
         });
+    },
+
+    clearAll: async () => {
+        await db.transaction('rw', [db.accounts, db.transactions, db.categories, db.budgets, db.goals], async () => {
+            await Promise.all([
+                db.accounts.clear(),
+                db.transactions.clear(),
+                db.categories.clear(),
+                db.budgets.clear(),
+                db.goals.clear()
+            ]);
+        });
     }
 };

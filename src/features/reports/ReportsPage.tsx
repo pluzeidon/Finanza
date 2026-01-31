@@ -20,30 +20,38 @@ export function ReportsPage() {
         <div className="p-4 space-y-6 pb-24">
             <h1 className="text-2xl font-bold">Reportes</h1>
 
-            <Card>
-                <CardHeader>
-                    <CardTitle>Gastos por Categoría</CardTitle>
-                </CardHeader>
-                <CardContent>
-                    <SpendingChart data={reportData?.spendingByCategory || []} />
+            <div className="glass-panel p-6 rounded-2xl relative overflow-hidden">
+                <div className="flex items-center justify-between mb-6">
+                    <h2 className="text-lg font-bold text-white tracking-tight">Gastos por Categoría</h2>
+                    <button className="text-xs text-primary font-medium hover:underline">Ver todo</button>
+                </div>
 
-                    {/* Detailed List */}
-                    <div className="mt-6 space-y-3">
-                        {reportData?.spendingByCategory.map(item => (
-                            <div key={item.categoryId} className="flex items-center justify-between text-sm">
-                                <div className="flex items-center gap-2">
-                                    <div className="w-3 h-3 rounded-full" style={{ backgroundColor: item.color }} />
-                                    <span>{item.categoryName}</span>
+                <SpendingChart data={reportData?.spendingByCategory || []} />
+
+                {/* Detailed List */}
+                <div className="mt-8 space-y-4">
+                    {reportData?.spendingByCategory.map((item, index) => (
+                        <div key={item.categoryId} className="flex items-center justify-between group">
+                            <div className="flex items-center gap-3">
+                                <div className="size-10 rounded-xl flex items-center justify-center bg-white/5 border border-white/5 group-hover:bg-white/10 transition-colors">
+                                    <div className="size-3 rounded-full shadow-[0_0_8px]" style={{ backgroundColor: item.color, boxShadow: `0 0 10px ${item.color}` }} />
                                 </div>
-                                <div className="flex items-center gap-4">
-                                    <span className="font-medium">{new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(item.amount)}</span>
-                                    <span className="text-slate-500 w-8 text-right">{item.percentage.toFixed(0)}%</span>
+                                <div className="flex flex-col">
+                                    <span className="text-sm font-medium text-white">{item.categoryName}</span>
+                                    {/* Progress Bar Background */}
+                                    <div className="w-24 h-1 bg-white/10 rounded-full mt-1 overflow-hidden">
+                                        <div className="h-full rounded-full" style={{ width: `${item.percentage}%`, backgroundColor: item.color }} />
+                                    </div>
                                 </div>
                             </div>
-                        ))}
-                    </div>
-                </CardContent>
-            </Card>
+                            <div className="flex flex-col items-end">
+                                <span className="font-bold text-white text-sm">{new Intl.NumberFormat('es-MX', { style: 'currency', currency: 'USD' }).format(item.amount)}</span>
+                                <span className="text-[10px] text-slate-400 font-mono">{item.percentage.toFixed(1)}%</span>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </div>
         </div>
     );
 }

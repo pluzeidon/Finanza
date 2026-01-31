@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Manage Financial Accounts</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#0da6f2",
+                        "background-light": "#f5f7f8",
+                        "background-dark": "#0a0f14", // Deeper dark for high contrast
+                        "surface-dark": "#161b21",
+                        "glass-dark": "rgba(22, 27, 33, 0.6)",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"],
+                        "body": ["Inter", "sans-serif"],
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "2xl": "1rem", "full": "9999px"},
+                    boxShadow: {
+                        'neon': '0 0 10px rgba(13, 166, 242, 0.5), 0 0 20px rgba(13, 166, 242, 0.3)',
+                        'glass': '0 4px 30px rgba(0, 0, 0, 0.1)',
+                    },
+                    backgroundImage: {
+                        'card-gradient': 'linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.02) 100%)',
+                        'neon-border': 'linear-gradient(to right, #0da6f2, #00d4ff)',
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom scrollbar hiding for clean UI */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        
+        .glass-panel {
+            background: rgba(22, 27, 33, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .holographic-card {
+            background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.01) 100%);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        /* Simulated holographic sheen */
+        .holographic-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -150%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transform: skewX(-20deg);
+            animation: shine 6s infinite linear;
+            pointer-events: none;
+        }
+
+        @keyframes shine {
+            0% { left: -150%; }
+            20% { left: 150%; }
+            100% { left: 150%; }
+        }
+
+        .neon-text {
+            text-shadow: 0 0 10px rgba(13, 166, 242, 0.5);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="font-display bg-background-light dark:bg-background-dark text-slate-900 dark:text-white antialiased min-h-screen flex flex-col overflow-x-hidden selection:bg-primary selection:text-white">
+<!-- Top Navigation -->
+<header class="fixed top-0 left-0 right-0 z-50 glass-panel border-b-0">
+<div class="flex items-center justify-between px-5 py-4">
+<div class="flex items-center gap-3">
+<div class="relative group cursor-pointer">
+<div class="absolute -inset-0.5 bg-gradient-to-r from-primary to-cyan-400 rounded-full blur opacity-60 group-hover:opacity-100 transition duration-200"></div>
+<div class="relative h-10 w-10 rounded-full overflow-hidden border-2 border-background-dark bg-gray-800" data-alt="User avatar with futuristic sunglasses">
+<img alt="User Profile" class="h-full w-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAJctiumghetQeOj_RSAmGPAXHxzEQXoC5jjZUNGOzZuBWsrA6hUbiQaLb2u-hG7402awA9P9z_vnh5--42ygFqAFRouN1CCUHmHkrsOpZ86cg9i87KeaGpx0WFHT0Lk17-R3EvaJCvJARkvn6RjE_2Kf9jyfaxx4TwUkBdF8P89cx7eabCxpbaywg7JhbuOxFFHMjc8VfWqmPJ-hxJrC1vAckUJ6v7fREi90DcyHmI_dRXOrbhyz2ggATWgCu-2-c0YvUF7jtFBW4N"/>
+</div>
+</div>
+<div class="flex flex-col">
+<span class="text-[10px] uppercase tracking-widest text-primary font-bold">Welcome Back</span>
+<h2 class="text-white text-base font-bold leading-none">Alex Morgan</h2>
+</div>
+</div>
+<button class="flex items-center justify-center h-10 w-10 rounded-full bg-surface-dark border border-white/10 hover:border-primary/50 hover:bg-surface-dark/80 transition-all group">
+<span class="material-symbols-outlined text-white group-hover:text-primary transition-colors">add</span>
+</button>
+</div>
+</header>
+<!-- Main Content Area -->
+<main class="flex-1 flex flex-col pt-24 pb-24 relative z-0">
+<!-- Abstract Background Decoration -->
+<div class="fixed top-0 left-0 w-full h-[500px] pointer-events-none -z-10 overflow-hidden">
+<div class="absolute top-[-20%] right-[-10%] w-[300px] h-[300px] bg-primary/20 rounded-full blur-[80px]"></div>
+<div class="absolute top-[20%] left-[-10%] w-[200px] h-[200px] bg-purple-500/10 rounded-full blur-[60px]"></div>
+</div>
+<!-- Accounts Title -->
+<div class="px-5 mb-4 flex items-center justify-between">
+<h3 class="text-white/80 text-sm font-semibold uppercase tracking-wider">Digital Cards</h3>
+<button class="text-primary text-xs font-bold hover:text-white transition-colors">Manage</button>
+</div>
+<!-- 3D Card Carousel -->
+<div class="w-full overflow-x-auto no-scrollbar pb-8 px-5 snap-x snap-mandatory flex gap-4">
+<!-- Card 1: Main Bank (Active Style) -->
+<div class="snap-center shrink-0 w-[300px] h-[190px] relative group perspective-1000">
+<!-- Neon Glow Underneath -->
+<div class="absolute -inset-1 bg-primary/40 rounded-2xl blur-xl opacity-70 group-hover:opacity-100 transition duration-500"></div>
+<div class="holographic-card relative w-full h-full rounded-2xl p-6 flex flex-col justify-between border-t border-l border-white/20 shadow-neon transform transition-transform duration-300 hover:scale-[1.02]">
+<div class="flex justify-between items-start">
+<div class="flex flex-col">
+<span class="text-white/60 text-xs font-medium uppercase tracking-wider">Main Bank</span>
+<span class="text-white font-bold text-lg mt-1 tracking-tight">Prime Account</span>
+</div>
+<img alt="Visa Logo" class="h-4 opacity-80 brightness-200" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA1KOIHk7HIbCGf9lY1MDkOJbP0c0SGXDtE9JCUq0TOpdzqzXy5DD_M2-dR1GRwec_aZS6okuh1DOynk6arww6gjEs5Ze1HggJXRPnHRx7wNF0ug4wSCXU3fDHU1TRMTYn1Fh1PIyDvhW_hEeYorvqR61AF4zyX3bd73Ng1LzplFp89pOLn7rOVHvJ4hDP6yEsGc0HeBYkiNC7vMY2UB-S4_EYVrJZ1NeS7JumJyQFLJZzcVR7My_g3LRL9cBFSrkpPq95hVda44HF3"/>
+</div>
+<div class="flex items-center gap-3 my-2">
+<div class="w-10 h-7 rounded bg-yellow-500/20 border border-yellow-500/40 flex items-center justify-center">
+<div class="w-6 h-4 border border-yellow-500/60 rounded-[2px] grid grid-cols-2 gap-[1px] p-[2px]">
+<div class="bg-yellow-500/60 rounded-[1px]"></div>
+<div class="bg-yellow-500/60 rounded-[1px]"></div>
+</div>
+</div>
+<span class="material-symbols-outlined text-white/50 animate-pulse text-lg">wifi</span>
+</div>
+<div class="flex justify-between items-end">
+<div class="text-white/90 font-mono text-lg tracking-widest drop-shadow-md">
+                            •••• 8829
+                        </div>
+<span class="text-white/50 text-[10px] font-mono">EXP 12/28</span>
+</div>
+</div>
+</div>
+<!-- Card 2: Crypto Wallet -->
+<div class="snap-center shrink-0 w-[300px] h-[190px] relative group perspective-1000 opacity-80 scale-95">
+<div class="holographic-card relative w-full h-full rounded-2xl p-6 flex flex-col justify-between border-t border-l border-white/10 bg-gradient-to-br from-purple-900/40 to-black/40">
+<div class="flex justify-between items-start">
+<div class="flex flex-col">
+<span class="text-white/60 text-xs font-medium uppercase tracking-wider">Crypto Wallet</span>
+<span class="text-white font-bold text-lg mt-1 tracking-tight">DeFi Vault</span>
+</div>
+<div class="h-8 w-8 rounded-full bg-orange-500/20 flex items-center justify-center border border-orange-500/50">
+<span class="material-symbols-outlined text-orange-400 text-lg">currency_bitcoin</span>
+</div>
+</div>
+<div class="flex-1"></div> <!-- Spacer -->
+<div class="flex justify-between items-end">
+<div class="flex flex-col">
+<span class="text-white/50 text-[10px] uppercase mb-1">Total Assets</span>
+<div class="text-white/90 font-mono text-lg tracking-wide">
+                                2.45 BTC
+                            </div>
+</div>
+<span class="bg-green-500/20 text-green-400 text-[10px] px-2 py-1 rounded border border-green-500/30">+12.4%</span>
+</div>
+</div>
+</div>
+<!-- Card 3: Credit Card -->
+<div class="snap-center shrink-0 w-[300px] h-[190px] relative group perspective-1000 opacity-80 scale-95">
+<div class="holographic-card relative w-full h-full rounded-2xl p-6 flex flex-col justify-between border-t border-l border-white/10 bg-gradient-to-br from-slate-800/60 to-black/40">
+<div class="flex justify-between items-start">
+<div class="flex flex-col">
+<span class="text-white/60 text-xs font-medium uppercase tracking-wider">Credit Line</span>
+<span class="text-white font-bold text-lg mt-1 tracking-tight">Platinum Card</span>
+</div>
+<img alt="Mastercard Logo" class="h-6 opacity-80" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCUgsGQeQQBRQNfAEfPjCEmyvYoypK_5uzI-TkJwJE_n7GhSxk0CyGRNyUl_I9oYWucUgznmn98vkJyQ0iuHZmOwFrlxAx3nIvh6agkQf_eUgoSnRO4pZnXZoi74c0wpixXrL4aMoCGm8Jis9mse34Hko0bGoM95nOwNxeuE9Oi74QNyBb1eE7w69gWThShqZay4WHPj0dbXbTUQo5OkYes692yfn0DHQlKPC9AhuZJdoN5_KggYY-O8iMEPeGjsgzsXHDLRk-jgs0h"/>
+</div>
+<div class="flex-1"></div>
+<div class="flex justify-between items-end">
+<div class="text-white/90 font-mono text-lg tracking-widest">
+                            •••• 4421
+                        </div>
+<div class="flex flex-col items-end">
+<span class="text-white/50 text-[10px] font-mono">LIMIT</span>
+<span class="text-white/90 text-xs font-bold">$25,000</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Balance & Actions Section -->
+<div class="flex flex-col items-center justify-center -mt-2 mb-8 relative z-10">
+<span class="text-primary text-xs font-semibold uppercase tracking-widest mb-1 neon-text">Total Balance</span>
+<h1 class="text-4xl md:text-5xl font-bold text-white tracking-tight mb-6 drop-shadow-xl">$14,203.55</h1>
+<!-- Glass Action Bar -->
+<div class="glass-panel rounded-xl p-2 flex items-center gap-1 mx-4 max-w-md w-full justify-between shadow-lg">
+<button class="flex-1 flex flex-col items-center gap-1 py-3 px-2 rounded-lg hover:bg-white/5 transition group relative overflow-hidden">
+<div class="absolute inset-0 bg-primary/10 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+<span class="material-symbols-outlined text-primary group-hover:scale-110 transition-transform">send</span>
+<span class="text-[11px] font-medium text-white/80">Send</span>
+</button>
+<div class="w-px h-8 bg-white/10"></div>
+<button class="flex-1 flex flex-col items-center gap-1 py-3 px-2 rounded-lg hover:bg-white/5 transition group relative overflow-hidden">
+<div class="absolute inset-0 bg-primary/10 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+<span class="material-symbols-outlined text-primary group-hover:scale-110 transition-transform">add_card</span>
+<span class="text-[11px] font-medium text-white/80">Top Up</span>
+</button>
+<div class="w-px h-8 bg-white/10"></div>
+<button class="flex-1 flex flex-col items-center gap-1 py-3 px-2 rounded-lg hover:bg-white/5 transition group relative overflow-hidden">
+<div class="absolute inset-0 bg-primary/10 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+<span class="material-symbols-outlined text-primary group-hover:scale-110 transition-transform">swap_horiz</span>
+<span class="text-[11px] font-medium text-white/80">Swap</span>
+</button>
+<div class="w-px h-8 bg-white/10"></div>
+<button class="flex-1 flex flex-col items-center gap-1 py-3 px-2 rounded-lg hover:bg-white/5 transition group relative overflow-hidden">
+<div class="absolute inset-0 bg-primary/10 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+<span class="material-symbols-outlined text-primary group-hover:scale-110 transition-transform">more_horiz</span>
+<span class="text-[11px] font-medium text-white/80">More</span>
+</button>
+</div>
+</div>
+<!-- Recent Activity List -->
+<div class="flex-1 rounded-t-[32px] bg-surface-dark/40 backdrop-blur-md border-t border-white/5 p-6 relative">
+<div class="absolute top-3 left-1/2 -translate-x-1/2 w-12 h-1 rounded-full bg-white/10"></div>
+<div class="flex items-center justify-between mb-6">
+<h3 class="text-lg font-bold text-white">Recent Activity</h3>
+<button class="text-white/40 hover:text-white text-sm transition-colors flex items-center gap-1">
+                     View all <span class="material-symbols-outlined text-base">chevron_right</span>
+</button>
+</div>
+<div class="space-y-4">
+<!-- Transaction Item 1 -->
+<div class="group flex items-center justify-between p-4 rounded-xl bg-background-dark/50 border border-white/5 hover:border-primary/30 transition-all cursor-pointer">
+<div class="flex items-center gap-4">
+<div class="h-12 w-12 rounded-full bg-red-500/10 flex items-center justify-center border border-red-500/20 group-hover:bg-red-500/20 transition-colors">
+<img alt="Netflix Logo" class="w-6 opacity-80" data-alt="Netflix 'N' logo" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAk4NBDgtI182COwnUBUQR_oTUPJStmluIjdpb343ZgmGiDuwRQ28uBaaK2iwq3Zh79FmMD7EGQW1iqwcz4BU93b3nS3dFAhgfVYOWgzzqdhECGJjmGiV3IJtK0W5JNJeWrSkreNmGSof1KY8_enrRkm0Fs-JixxQmaOHfI2CBsfO95mXpTzHVq4A8SbkFu74RPpQvDEnQuUL1C6bCw4LZjo2MC7n4NY6dmqsRDIz17-9GFakxj-j08F53xvJRl9iGiZ0_iDTPpNdEd"/>
+</div>
+<div class="flex flex-col">
+<span class="text-white font-semibold text-sm">Netflix Subscription</span>
+<span class="text-white/40 text-xs">Entertainment • Today, 10:42 AM</span>
+</div>
+</div>
+<span class="text-white font-medium text-sm">-$15.99</span>
+</div>
+<!-- Transaction Item 2 -->
+<div class="group flex items-center justify-between p-4 rounded-xl bg-background-dark/50 border border-white/5 hover:border-primary/30 transition-all cursor-pointer">
+<div class="flex items-center gap-4">
+<div class="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center border border-primary/20 group-hover:bg-primary/20 transition-colors">
+<span class="material-symbols-outlined text-primary">work</span>
+</div>
+<div class="flex flex-col">
+<span class="text-white font-semibold text-sm">TechCorp Salary</span>
+<span class="text-white/40 text-xs">Income • Yesterday</span>
+</div>
+</div>
+<span class="text-primary font-bold text-sm">+$3,200.00</span>
+</div>
+<!-- Transaction Item 3 -->
+<div class="group flex items-center justify-between p-4 rounded-xl bg-background-dark/50 border border-white/5 hover:border-primary/30 transition-all cursor-pointer">
+<div class="flex items-center gap-4">
+<div class="h-12 w-12 rounded-full bg-green-500/10 flex items-center justify-center border border-green-500/20 group-hover:bg-green-500/20 transition-colors">
+<span class="material-symbols-outlined text-green-400">local_cafe</span>
+</div>
+<div class="flex flex-col">
+<span class="text-white font-semibold text-sm">Starbucks Coffee</span>
+<span class="text-white/40 text-xs">Food &amp; Drink • Oct 24</span>
+</div>
+</div>
+<span class="text-white font-medium text-sm">-$5.40</span>
+</div>
+<!-- Transaction Item 4 -->
+<div class="group flex items-center justify-between p-4 rounded-xl bg-background-dark/50 border border-white/5 hover:border-primary/30 transition-all cursor-pointer">
+<div class="flex items-center gap-4">
+<div class="h-12 w-12 rounded-full bg-purple-500/10 flex items-center justify-center border border-purple-500/20 group-hover:bg-purple-500/20 transition-colors">
+<span class="material-symbols-outlined text-purple-400">shopping_bag</span>
+</div>
+<div class="flex flex-col">
+<span class="text-white font-semibold text-sm">Apple Store</span>
+<span class="text-white/40 text-xs">Electronics • Oct 22</span>
+</div>
+</div>
+<span class="text-white font-medium text-sm">-$1,299.00</span>
+</div>
+</div>
+</div>
+</main>
+<!-- Bottom Navigation -->
+<nav class="fixed bottom-0 left-0 right-0 z-50">
+<!-- Floating Glass Container -->
+<div class="mx-4 mb-4 glass-panel rounded-2xl h-16 flex items-center justify-between px-2 shadow-2xl shadow-black/50 relative overflow-hidden">
+<!-- Active Indicator Glow -->
+<div class="absolute bottom-0 left-[26%] -translate-x-1/2 w-12 h-1 bg-primary shadow-[0_0_15px_rgba(13,166,242,1)] rounded-t-full"></div>
+<a class="flex-1 flex flex-col items-center justify-center gap-1 h-full text-white/50 hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined text-[26px]">home</span>
+</a>
+<a class="flex-1 flex flex-col items-center justify-center gap-1 h-full text-primary relative" href="#">
+<span class="material-symbols-outlined text-[26px] drop-shadow-[0_0_8px_rgba(13,166,242,0.8)]">credit_card</span>
+</a>
+<div class="flex-1 flex justify-center -mt-8">
+<button class="h-14 w-14 rounded-full bg-gradient-to-tr from-primary to-cyan-400 flex items-center justify-center shadow-[0_0_20px_rgba(13,166,242,0.6)] border-4 border-background-dark transform transition-transform active:scale-95">
+<span class="material-symbols-outlined text-white text-3xl">qr_code_scanner</span>
+</button>
+</div>
+<a class="flex-1 flex flex-col items-center justify-center gap-1 h-full text-white/50 hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined text-[26px]">bar_chart</span>
+</a>
+<a class="flex-1 flex flex-col items-center justify-center gap-1 h-full text-white/50 hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined text-[26px]">person</span>
+</a>
+</div>
+</nav>
+</body></html>

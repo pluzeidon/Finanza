@@ -33,23 +33,26 @@ export function CategoryManager() {
     const incomeCats = categories?.filter(c => c.type === 'INCOME') || [];
 
     const CategoryRow = ({ category }: { category: Category }) => (
-        <div className="flex items-center justify-between p-3 bg-white border border-slate-100 rounded-lg group">
-            <div className="flex items-center gap-3">
-                <span className="text-2xl w-8 text-center">{category.icon}</span>
+        <div className="flex items-center justify-between p-3 rounded-xl hover:bg-white/5 group transition-colors cursor-pointer border border-transparent hover:border-white/5" onClick={() => handleEdit(category)}>
+            <div className="flex items-center gap-4">
+                <div className="size-10 rounded-lg flex items-center justify-center bg-white/5 border border-white/5">
+                    <span className="text-xl">{category.icon}</span>
+                </div>
                 <div>
-                    <p className="font-medium text-sm">{category.name}</p>
-                    <div className="h-1 w-12 rounded-full mt-1" style={{ backgroundColor: category.color }} />
+                    <p className="font-medium text-sm text-white">{category.name}</p>
+                    <div className="h-1 w-12 rounded-full mt-1.5 shadow-[0_0_5px]" style={{ backgroundColor: category.color, boxShadow: `0 0 8px ${category.color}` }} />
                 </div>
             </div>
+
             <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                <Button size="icon" variant="ghost" className="h-8 w-8 text-slate-400 hover:text-blue-500" onClick={() => handleEdit(category)}>
-                    <Edit2 className="h-4 w-4" />
-                </Button>
                 {!category.isSystem && (
-                    <Button size="icon" variant="ghost" className="h-8 w-8 text-slate-400 hover:text-red-500" onClick={() => handleDelete(category.id)}>
+                    <Button size="icon" variant="ghost" className="h-8 w-8 text-slate-500 hover:text-red-400 hover:bg-red-400/10" onClick={(e) => { e.stopPropagation(); handleDelete(category.id); }}>
                         <Trash2 className="h-4 w-4" />
                     </Button>
                 )}
+                <Button size="icon" variant="ghost" className="h-8 w-8 text-slate-500 hover:text-primary hover:bg-primary/10">
+                    <Edit2 className="h-4 w-4" />
+                </Button>
             </div>
         </div>
     );
@@ -57,24 +60,24 @@ export function CategoryManager() {
     return (
         <div className="space-y-6">
             <div className="flex items-center justify-between">
-                <h3 className="text-lg font-semibold flex items-center gap-2">
-                    <Tag className="h-5 w-5 text-indigo-500" /> Categorías
+                <h3 className="text-lg font-bold flex items-center gap-2 text-white">
+                    <Tag className="h-5 w-5 text-primary" /> Categorías
                 </h3>
-                <Button size="sm" variant="outline" onClick={handleCreate}>
+                <Button size="sm" variant="outline" onClick={handleCreate} className="bg-transparent border-white/10 hover:bg-white/5 text-primary hover:text-primary">
                     <Plus className="h-4 w-4 mr-2" /> Nueva
                 </Button>
             </div>
 
-            <div className="space-y-2">
-                <h4 className="text-xs font-semibold text-slate-500 uppercase tracking-wider">Gastos</h4>
-                <div className="grid gap-2">
+            <div className="space-y-3">
+                <h4 className="text-xs font-bold text-slate-500 uppercase tracking-wider pl-1">Gastos</h4>
+                <div className="space-y-1">
                     {expenseCats.map(c => <CategoryRow key={c.id} category={c} />)}
                 </div>
             </div>
 
-            <div className="space-y-2">
-                <h4 className="text-xs font-semibold text-slate-500 uppercase tracking-wider">Ingresos</h4>
-                <div className="grid gap-2">
+            <div className="space-y-3">
+                <h4 className="text-xs font-bold text-slate-500 uppercase tracking-wider pl-1">Ingresos</h4>
+                <div className="space-y-1">
                     {incomeCats.map(c => <CategoryRow key={c.id} category={c} />)}
                 </div>
             </div>

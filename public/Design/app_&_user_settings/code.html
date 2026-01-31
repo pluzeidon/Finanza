@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>App &amp; User Settings</title>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#0da6f2",
+                        "background-light": "#f5f7f8",
+                        "background-dark": "#101c22",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+                    backdropBlur: {
+                        xs: '2px',
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom scrollbar for webkit */
+        ::-webkit-scrollbar {
+            width: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #223c49;
+            border-radius: 4px;
+        }
+        
+        /* Glassmorphism utility class */
+        .glass-panel {
+            background: rgba(34, 60, 73, 0.4);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        /* Neon glow effect for the avatar ring */
+        .neon-ring {
+            box-shadow: 0 0 15px rgba(13, 166, 242, 0.5);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="antialiased">
+<div class="relative flex h-full min-h-screen w-full flex-col bg-background-light dark:bg-background-dark overflow-x-hidden font-display transition-colors duration-200">
+<!-- Top App Bar -->
+<header class="sticky top-0 z-50 glass-panel border-b border-white/5 pb-2 pt-safe-top">
+<!-- pt-safe-top simulates safe area, but for this generic output using padding -->
+<div class="flex items-center p-4 justify-between pt-8 md:pt-4">
+<div class="text-slate-900 dark:text-white flex size-12 shrink-0 items-center justify-center rounded-full hover:bg-slate-200 dark:hover:bg-white/10 transition-colors cursor-pointer">
+<span class="material-symbols-outlined" style="font-size: 24px;">arrow_back</span>
+</div>
+<h2 class="text-slate-900 dark:text-white text-lg font-bold leading-tight tracking-[-0.015em] flex-1 text-center pr-12">Settings</h2>
+</div>
+</header>
+<main class="flex-1 flex flex-col px-4 pb-8 space-y-6">
+<!-- Profile Header -->
+<section class="mt-6 flex flex-col items-center gap-6">
+<div class="relative group cursor-pointer">
+<div class="absolute -inset-1 rounded-full bg-primary/30 blur opacity-75 group-hover:opacity-100 transition duration-1000 group-hover:duration-200 neon-ring"></div>
+<div class="relative rounded-full p-1 bg-background-dark border-2 border-primary">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full h-24 w-24" data-alt="Futuristic portrait of a young man with neon lighting" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBqdFllwidc5nMTbD337nCwrFtpOPfRjVYYexfrHg927bnoOMYHPp5XaWl9lr2zH7aJ_USdeNKK_PQonMGJjwBJcJgz1Fb2-sGPiDI0Qyk3TseXFqIx8muKh5PEb-3M4AQ2FIqAk-z9KMFNWQ6mOmnU-zS7UlaOQtsz3X013IjjmQu85vyPwQ4qiMsZpkmArRT_XUnDioL2LNre20ifRTauQXDH7-A8-Nw6kfJXzBQJsTrwV5Qdu8ncSB_cUPhAOj1X7a5A2qK9auVJ");'>
+</div>
+</div>
+<div class="absolute bottom-1 right-1 bg-primary text-white text-[10px] font-bold px-2 py-0.5 rounded-full border border-background-dark shadow-lg">
+                        PRO
+                    </div>
+</div>
+<div class="flex flex-col items-center justify-center">
+<p class="text-slate-900 dark:text-white text-[22px] font-bold leading-tight tracking-[-0.015em] text-center">Alex Rivera</p>
+<p class="text-slate-500 dark:text-[#90b7cb] text-sm font-medium mt-1">ID: #8839 • Member since 2021</p>
+</div>
+</section>
+<!-- Settings Group: Security -->
+<div class="flex flex-col gap-3">
+<h3 class="text-slate-900 dark:text-white text-sm font-bold uppercase tracking-wider px-1 opacity-80">Security</h3>
+<div class="glass-panel rounded-xl overflow-hidden divide-y divide-white/5 shadow-lg">
+<!-- Biometric Item -->
+<div class="flex items-center gap-4 p-4 justify-between hover:bg-white/5 transition-colors cursor-pointer group">
+<div class="flex items-center gap-4">
+<div class="text-primary flex items-center justify-center rounded-lg bg-primary/10 shrink-0 size-10 group-hover:bg-primary/20 transition-colors">
+<span class="material-symbols-outlined" style="font-size: 24px;">face</span>
+</div>
+<div class="flex flex-col">
+<p class="text-slate-900 dark:text-white text-base font-medium leading-normal">Face ID Login</p>
+<p class="text-slate-500 dark:text-slate-400 text-xs">Secure your account</p>
+</div>
+</div>
+<div class="shrink-0">
+<label class="relative flex h-[28px] w-[48px] cursor-pointer items-center rounded-full border-none bg-slate-200 dark:bg-slate-700 p-0.5 has-[:checked]:justify-end has-[:checked]:bg-primary transition-colors duration-300">
+<div class="h-[24px] w-[24px] rounded-full bg-white shadow-sm transition-all duration-300"></div>
+<input checked="" class="invisible absolute" type="checkbox"/>
+</label>
+</div>
+</div>
+<!-- Change PIN Item -->
+<div class="flex items-center gap-4 p-4 justify-between hover:bg-white/5 transition-colors cursor-pointer group">
+<div class="flex items-center gap-4">
+<div class="text-primary flex items-center justify-center rounded-lg bg-primary/10 shrink-0 size-10 group-hover:bg-primary/20 transition-colors">
+<span class="material-symbols-outlined" style="font-size: 24px;">lock_reset</span>
+</div>
+<p class="text-slate-900 dark:text-white text-base font-medium leading-normal">Change PIN</p>
+</div>
+<div class="shrink-0 text-slate-400">
+<span class="material-symbols-outlined" style="font-size: 24px;">chevron_right</span>
+</div>
+</div>
+<!-- 2FA Item -->
+<div class="flex items-center gap-4 p-4 justify-between hover:bg-white/5 transition-colors cursor-pointer group">
+<div class="flex items-center gap-4">
+<div class="text-primary flex items-center justify-center rounded-lg bg-primary/10 shrink-0 size-10 group-hover:bg-primary/20 transition-colors">
+<span class="material-symbols-outlined" style="font-size: 24px;">phonelink_lock</span>
+</div>
+<p class="text-slate-900 dark:text-white text-base font-medium leading-normal">2-Step Verification</p>
+</div>
+<div class="shrink-0 text-slate-400">
+<span class="material-symbols-outlined" style="font-size: 24px;">chevron_right</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Settings Group: Preferences -->
+<div class="flex flex-col gap-3">
+<h3 class="text-slate-900 dark:text-white text-sm font-bold uppercase tracking-wider px-1 opacity-80">Preferences</h3>
+<div class="glass-panel rounded-xl overflow-hidden divide-y divide-white/5 shadow-lg">
+<!-- Currency -->
+<div class="flex items-center gap-4 p-4 justify-between hover:bg-white/5 transition-colors cursor-pointer group">
+<div class="flex items-center gap-4">
+<div class="text-primary flex items-center justify-center rounded-lg bg-primary/10 shrink-0 size-10 group-hover:bg-primary/20 transition-colors">
+<span class="material-symbols-outlined" style="font-size: 24px;">currency_exchange</span>
+</div>
+<p class="text-slate-900 dark:text-white text-base font-medium leading-normal">Default Currency</p>
+</div>
+<div class="flex items-center gap-2">
+<span class="text-slate-500 dark:text-slate-400 text-sm">USD</span>
+<div class="shrink-0 text-slate-400">
+<span class="material-symbols-outlined" style="font-size: 24px;">chevron_right</span>
+</div>
+</div>
+</div>
+<!-- Language -->
+<div class="flex items-center gap-4 p-4 justify-between hover:bg-white/5 transition-colors cursor-pointer group">
+<div class="flex items-center gap-4">
+<div class="text-primary flex items-center justify-center rounded-lg bg-primary/10 shrink-0 size-10 group-hover:bg-primary/20 transition-colors">
+<span class="material-symbols-outlined" style="font-size: 24px;">translate</span>
+</div>
+<p class="text-slate-900 dark:text-white text-base font-medium leading-normal">Language</p>
+</div>
+<div class="flex items-center gap-2">
+<span class="text-slate-500 dark:text-slate-400 text-sm">English</span>
+<div class="shrink-0 text-slate-400">
+<span class="material-symbols-outlined" style="font-size: 24px;">chevron_right</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Settings Group: Notifications -->
+<div class="flex flex-col gap-3">
+<h3 class="text-slate-900 dark:text-white text-sm font-bold uppercase tracking-wider px-1 opacity-80">Notifications</h3>
+<div class="glass-panel rounded-xl overflow-hidden divide-y divide-white/5 shadow-lg">
+<!-- Transaction Alerts -->
+<div class="flex items-center gap-4 p-4 justify-between hover:bg-white/5 transition-colors cursor-pointer group">
+<div class="flex items-center gap-4">
+<div class="text-primary flex items-center justify-center rounded-lg bg-primary/10 shrink-0 size-10 group-hover:bg-primary/20 transition-colors">
+<span class="material-symbols-outlined" style="font-size: 24px;">notifications_active</span>
+</div>
+<p class="text-slate-900 dark:text-white text-base font-medium leading-normal">Transaction Alerts</p>
+</div>
+<div class="shrink-0">
+<label class="relative flex h-[28px] w-[48px] cursor-pointer items-center rounded-full border-none bg-slate-200 dark:bg-slate-700 p-0.5 has-[:checked]:justify-end has-[:checked]:bg-primary transition-colors duration-300">
+<div class="h-[24px] w-[24px] rounded-full bg-white shadow-sm transition-all duration-300"></div>
+<input checked="" class="invisible absolute" type="checkbox"/>
+</label>
+</div>
+</div>
+<!-- Marketing -->
+<div class="flex items-center gap-4 p-4 justify-between hover:bg-white/5 transition-colors cursor-pointer group">
+<div class="flex items-center gap-4">
+<div class="text-primary flex items-center justify-center rounded-lg bg-primary/10 shrink-0 size-10 group-hover:bg-primary/20 transition-colors">
+<span class="material-symbols-outlined" style="font-size: 24px;">campaign</span>
+</div>
+<p class="text-slate-900 dark:text-white text-base font-medium leading-normal">Promotions</p>
+</div>
+<div class="shrink-0">
+<label class="relative flex h-[28px] w-[48px] cursor-pointer items-center rounded-full border-none bg-slate-200 dark:bg-slate-700 p-0.5 has-[:checked]:justify-end has-[:checked]:bg-primary transition-colors duration-300">
+<div class="h-[24px] w-[24px] rounded-full bg-white shadow-sm transition-all duration-300"></div>
+<input class="invisible absolute" type="checkbox"/>
+</label>
+</div>
+</div>
+</div>
+</div>
+<!-- Settings Group: Theme -->
+<div class="flex flex-col gap-3">
+<h3 class="text-slate-900 dark:text-white text-sm font-bold uppercase tracking-wider px-1 opacity-80">Theme</h3>
+<div class="glass-panel rounded-xl overflow-hidden divide-y divide-white/5 shadow-lg">
+<!-- Dark Mode -->
+<div class="flex items-center gap-4 p-4 justify-between hover:bg-white/5 transition-colors cursor-pointer group">
+<div class="flex items-center gap-4">
+<div class="text-primary flex items-center justify-center rounded-lg bg-primary/10 shrink-0 size-10 group-hover:bg-primary/20 transition-colors">
+<span class="material-symbols-outlined" style="font-size: 24px;">dark_mode</span>
+</div>
+<p class="text-slate-900 dark:text-white text-base font-medium leading-normal">Dark Mode</p>
+</div>
+<div class="shrink-0">
+<label class="relative flex h-[28px] w-[48px] cursor-pointer items-center rounded-full border-none bg-slate-200 dark:bg-slate-700 p-0.5 has-[:checked]:justify-end has-[:checked]:bg-primary transition-colors duration-300">
+<div class="h-[24px] w-[24px] rounded-full bg-white shadow-sm transition-all duration-300"></div>
+<input checked="" class="invisible absolute" type="checkbox"/>
+</label>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="mt-auto px-4 pb-8 flex flex-col items-center gap-4 border-t border-white/5 pt-6 bg-gradient-to-t from-background-dark to-transparent">
+<button class="w-full rounded-xl bg-red-500/10 hover:bg-red-500/20 active:bg-red-500/30 text-red-500 dark:text-red-400 font-bold py-3.5 transition-colors border border-red-500/20 flex items-center justify-center gap-2">
+<span class="material-symbols-outlined" style="font-size: 20px;">logout</span>
+                Log Out
+            </button>
+<p class="text-slate-500 dark:text-slate-600 text-xs text-center font-medium">Version 2.4.0 (Build 55)</p>
+</footer>
+</div>
+</body></html>

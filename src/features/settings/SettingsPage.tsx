@@ -62,58 +62,74 @@ export function SettingsPage() {
     };
 
     return (
-        <div className="p-4 space-y-6 pb-24">
+        <div className="p-4 space-y-6 pb-24 text-white">
             <h1 className="text-2xl font-bold">Ajustes</h1>
 
             {/* Categories Management */}
-            <Card>
-                <CardContent className="p-4">
-                    <CategoryManager />
-                </CardContent>
-            </Card>
+            <div className="glass-panel p-6 rounded-2xl">
+                <CategoryManager />
+            </div>
 
             {/* Data Management */}
-            <Card>
-                <CardHeader>
-                    <CardTitle className="text-lg flex items-center gap-2">
-                        <ShieldCheck className="h-5 w-5 text-blue-500" />
-                        Soberanía de Datos
-                    </CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                    <p className="text-sm text-slate-500">
-                        Tus datos se guardan 100% localmente en este dispositivo. We have no access to it.
-                        Haz copias de seguridad regularmente.
+            <div className="glass-panel p-6 rounded-2xl relative overflow-hidden">
+                {/* Decorative glow */}
+                <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full blur-3xl pointer-events-none"></div>
+
+                <div className="flex items-center gap-3 mb-6 relative z-10">
+                    <div className="p-2 bg-blue-500/10 rounded-lg">
+                        <ShieldCheck className="h-6 w-6 text-blue-400" />
+                    </div>
+                    <h2 className="text-lg font-bold">Soberanía de Datos</h2>
+                </div>
+
+                <div className="space-y-6 relative z-10">
+                    <p className="text-sm text-slate-400 leading-relaxed bg-black/20 p-4 rounded-xl border border-white/5">
+                        Tus datos se guardan <strong className="text-white">100% localmente</strong> en este dispositivo.
+                        No tenemos acceso a ellos. Recuerda hacer copias de seguridad regularmente.
                     </p>
 
                     <div className="flex flex-col gap-3">
-                        <Button variant="outline" className="justify-start gap-3" onClick={handleExport}>
-                            <Download className="h-4 w-4" />
-                            Exportar Copia (JSON)
+                        <Button variant="outline" className="justify-start gap-4 h-12 bg-transparent border-white/10 hover:bg-white/5 text-slate-300 hover:text-white" onClick={handleExport}>
+                            <Download className="h-5 w-5 text-primary" />
+                            <div className="flex flex-col items-start">
+                                <span className="font-semibold text-sm">Exportar Copia de Seguridad</span>
+                                <span className="text-[10px] text-slate-500">Formato JSON seguro</span>
+                            </div>
                         </Button>
 
-                        <Button variant="outline" className="justify-start gap-3" onClick={handleImportClick} disabled={importing}>
-                            <Upload className="h-4 w-4" />
-                            {importing ? 'Importando...' : 'Restaurar Copia'}
-                        </Button>
-                        <input
-                            type="file"
-                            ref={fileInputRef}
-                            className="hidden"
-                            accept=".json"
-                            onChange={handleFileChange}
-                        />
+                        <div className="relative">
+                            <Button variant="outline" className="w-full justify-start gap-4 h-12 bg-transparent border-white/10 hover:bg-white/5 text-slate-300 hover:text-white" onClick={handleImportClick} disabled={importing}>
+                                <Upload className="h-5 w-5 text-emerald-400" />
+                                <div className="flex flex-col items-start">
+                                    <span className="font-semibold text-sm">{importing ? 'Restaurando...' : 'Restaurar Copia'}</span>
+                                    <span className="text-[10px] text-slate-500">Desde archivo JSON</span>
+                                </div>
+                            </Button>
+                            <input
+                                type="file"
+                                ref={fileInputRef}
+                                className="hidden"
+                                accept=".json"
+                                onChange={handleFileChange}
+                            />
+                        </div>
 
-                        <Button variant="ghost" className="justify-start gap-3 text-red-500 hover:text-red-600 hover:bg-red-50">
-                            <Trash2 className="h-4 w-4" />
-                            Borrar Todos los Datos
+                        <Button variant="ghost" className="justify-start gap-4 h-12 text-red-400 hover:text-red-300 hover:bg-red-400/10" onClick={() => {
+                            if (confirm("PELIGRO: Esto borrará TODOS tus datos permanentemente. ¿Estás seguro?")) {
+                                DataManager.clearAll();
+                                window.location.reload();
+                            }
+                        }}>
+                            <Trash2 className="h-5 w-5" />
+                            <span className="font-medium">Borrar Todos los Datos</span>
                         </Button>
                     </div>
-                </CardContent>
-            </Card>
+                </div>
+            </div>
 
-            <div className="text-center text-xs text-slate-400 mt-8">
-                Finanza v1.0.0
+            <div className="text-center pb-8 opacity-40">
+                <p className="text-xs font-mono mb-1">Finanza v1.0.0</p>
+                <p className="text-[10px]">Quantum Edition</p>
             </div>
         </div>
     );

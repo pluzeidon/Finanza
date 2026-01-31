@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Monthly Budget Limits</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#0da6f2",
+                        "primary-glow": "#0da6f2",
+                        "danger": "#ff3b30",
+                        "danger-glow": "#ff3b30",
+                        "background-light": "#f5f7f8",
+                        "background-dark": "#101c22",
+                        "surface-glass": "rgba(255, 255, 255, 0.05)",
+                        "surface-border": "rgba(255, 255, 255, 0.1)",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "2xl": "1rem", "full": "9999px"},
+                    boxShadow: {
+                        'neon-blue': '0 0 10px #0da6f2, 0 0 20px rgba(13, 166, 242, 0.5)',
+                        'neon-red': '0 0 10px #ff3b30, 0 0 20px rgba(255, 59, 48, 0.5)',
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom scrollbar for webkit */
+        ::-webkit-scrollbar {
+            width: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #101c22; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #2a3e47; 
+            border-radius: 4px;
+        }
+        
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-white font-display antialiased selection:bg-primary selection:text-white overflow-x-hidden min-h-screen flex flex-col">
+<!-- Top App Bar -->
+<header class="sticky top-0 z-50 bg-background-dark/80 backdrop-blur-md border-b border-white/5 px-4 py-3 flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="relative group cursor-pointer">
+<div class="bg-center bg-no-repeat bg-cover rounded-full size-10 border-2 border-primary/30" data-alt="User profile avatar showing a stylized portrait" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAQEgRNbE5MRa9nPIX-sGoeqx4YXkSpI5ftfwfIrkuR045YqrrS99y-WNc-adqL3NLTpHUlY-53bJtIhLEZ0koU0tCp4Zhz3o5pdkj9x1qFaQPD2YmsIt5_GYbtdfckicZA-5U_bA57FomSFA1qrpapbx_cER71_eua4BjtJDRZvGal2FjUgNgY44EqWcpy4Nd58CiK474TykGKods6mz3KqGVz6IhWObHWe-aJZROUTHIcQQMQDdOCKGCTJRFG-_6lUr-iqlg1PSj8");'>
+</div>
+<div class="absolute bottom-0 right-0 size-3 bg-green-500 border-2 border-[#101c22] rounded-full"></div>
+</div>
+<div>
+<p class="text-xs text-slate-400 font-medium leading-none mb-1">Welcome back,</p>
+<h2 class="text-sm font-bold leading-none tracking-wide text-white">Alex Chen</h2>
+</div>
+</div>
+<button class="relative flex items-center justify-center size-10 rounded-full bg-surface-glass hover:bg-white/10 transition-colors text-white">
+<span class="material-symbols-outlined text-[24px]">notifications</span>
+<span class="absolute top-2.5 right-2.5 size-2 bg-primary rounded-full shadow-[0_0_8px_#0da6f2]"></span>
+</button>
+</header>
+<!-- Main Content -->
+<main class="flex-1 w-full max-w-lg mx-auto pb-24 px-4 pt-6">
+<!-- Summary Section -->
+<section class="mb-8">
+<div class="flex flex-col gap-1 mb-6">
+<p class="text-slate-400 text-sm font-medium tracking-wider uppercase">Total Monthly Budget</p>
+<div class="flex items-baseline gap-3">
+<h1 class="text-4xl font-bold tracking-tight text-white">$2,450</h1>
+<span class="text-lg text-slate-500 font-medium">/ $4,000</span>
+</div>
+<div class="flex items-center gap-2 mt-1">
+<span class="flex items-center text-primary text-sm font-medium bg-primary/10 px-2 py-0.5 rounded">
+<span class="material-symbols-outlined text-[16px] mr-1">trending_down</span>
+                        12% saved
+                    </span>
+<span class="text-slate-500 text-sm">vs last month</span>
+</div>
+</div>
+<!-- Mini Chart Area -->
+<div class="h-32 w-full relative mb-4">
+<svg class="w-full h-full overflow-visible" preserveaspectratio="none" viewbox="0 0 478 150">
+<defs>
+<lineargradient id="gradient" x1="0%" x2="0%" y1="0%" y2="100%">
+<stop offset="0%" stop-color="#0da6f2" stop-opacity="0.3"></stop>
+<stop offset="100%" stop-color="#0da6f2" stop-opacity="0"></stop>
+</lineargradient>
+</defs>
+<path d="M0 109C18.15 109 18.15 45 36.3 45C54.46 45 54.46 65 72.6 65C90.7 65 90.7 93 108.9 93C127 93 127 55 145.2 55C163.3 55 163.3 80 181.5 80C199.6 80 199.6 61 217.8 61C236 61 236 45 254.1 45C272.3 45 272.3 90 290.4 90C308.6 90 308.6 110 326.7 110C344.9 110 344.9 30 363 30C381.2 30 381.2 81 399.3 81C417.5 81 417.5 95 435.6 95C453.8 95 453.8 55 472 55V150H0V109Z" fill="url(#gradient)"></path>
+<path d="M0 109C18.15 109 18.15 45 36.3 45C54.46 45 54.46 65 72.6 65C90.7 65 90.7 93 108.9 93C127 93 127 55 145.2 55C163.3 55 163.3 80 181.5 80C199.6 80 199.6 61 217.8 61C236 61 236 45 254.1 45C272.3 45 272.3 90 290.4 90C308.6 90 308.6 110 326.7 110C344.9 110 344.9 30 363 30C381.2 30 381.2 81 399.3 81C417.5 81 417.5 95 435.6 95C453.8 95 453.8 55 472 55" fill="none" stroke="#0da6f2" stroke-linecap="round" stroke-width="2"></path>
+</svg>
+<div class="flex justify-between mt-2 px-1">
+<span class="text-xs font-bold text-slate-500">W1</span>
+<span class="text-xs font-bold text-slate-500">W2</span>
+<span class="text-xs font-bold text-slate-500">W3</span>
+<span class="text-xs font-bold text-slate-500">W4</span>
+</div>
+</div>
+</section>
+<!-- Your Budgets List -->
+<section class="flex flex-col gap-5">
+<h3 class="text-xl font-bold text-white mb-1 px-1">Your Categories</h3>
+<!-- Housing Card (Healthy) -->
+<div class="glass-card rounded-2xl p-5 relative overflow-hidden group">
+<div class="absolute -right-10 -top-10 w-32 h-32 bg-primary/10 rounded-full blur-3xl pointer-events-none"></div>
+<div class="flex justify-between items-start mb-4 relative z-10">
+<div class="flex items-center gap-4">
+<div class="size-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-primary shadow-[0_0_15px_rgba(13,166,242,0.15)]">
+<span class="material-symbols-outlined text-[24px]">cottage</span>
+</div>
+<div>
+<h4 class="text-base font-bold text-white">Housing</h4>
+<p class="text-xs text-slate-400 mt-0.5">Monthly Rent &amp; Utilities</p>
+</div>
+</div>
+<div class="text-right">
+<p class="text-white font-bold text-base">$1,200</p>
+<p class="text-slate-500 text-xs">of $2,400</p>
+</div>
+</div>
+<div class="relative z-10">
+<div class="flex justify-between mb-2">
+<span class="text-xs font-medium text-primary">50% Used</span>
+<span class="text-xs font-medium text-slate-400">$1,200 Left</span>
+</div>
+<div class="h-3 w-full bg-slate-800/50 rounded-full overflow-hidden border border-white/5">
+<div class="h-full bg-primary rounded-full shadow-neon-blue w-1/2"></div>
+</div>
+</div>
+</div>
+<!-- Food Card (Danger State) -->
+<div class="glass-card rounded-2xl p-5 relative overflow-hidden group border-danger/30">
+<div class="absolute -right-10 -top-10 w-32 h-32 bg-danger/10 rounded-full blur-3xl pointer-events-none animate-pulse"></div>
+<div class="flex justify-between items-start mb-4 relative z-10">
+<div class="flex items-center gap-4">
+<div class="size-12 rounded-xl bg-danger/10 border border-danger/20 flex items-center justify-center text-danger shadow-[0_0_15px_rgba(255,59,48,0.2)]">
+<span class="material-symbols-outlined text-[24px]">restaurant</span>
+</div>
+<div>
+<h4 class="text-base font-bold text-white">Food &amp; Dining</h4>
+<p class="text-xs text-slate-400 mt-0.5">Groceries, Restaurants</p>
+</div>
+</div>
+<div class="text-right">
+<p class="text-danger font-bold text-base">$570</p>
+<p class="text-slate-500 text-xs">of $600</p>
+</div>
+</div>
+<div class="relative z-10">
+<div class="flex justify-between mb-2">
+<span class="text-xs font-bold text-danger animate-pulse flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">warning</span>
+                            95% Critical
+                        </span>
+<span class="text-xs font-medium text-slate-400">$30 Left</span>
+</div>
+<div class="h-3 w-full bg-slate-800/50 rounded-full overflow-hidden border border-white/5">
+<div class="h-full bg-danger rounded-full shadow-neon-red w-[95%] animate-pulse"></div>
+</div>
+</div>
+</div>
+<!-- Entertainment Card (Healthy) -->
+<div class="glass-card rounded-2xl p-5 relative overflow-hidden group">
+<div class="absolute -right-10 -top-10 w-32 h-32 bg-primary/5 rounded-full blur-3xl pointer-events-none"></div>
+<div class="flex justify-between items-start mb-4 relative z-10">
+<div class="flex items-center gap-4">
+<div class="size-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-primary shadow-[0_0_15px_rgba(13,166,242,0.1)]">
+<span class="material-symbols-outlined text-[24px]">movie</span>
+</div>
+<div>
+<h4 class="text-base font-bold text-white">Entertainment</h4>
+<p class="text-xs text-slate-400 mt-0.5">Movies, Games, Subs</p>
+</div>
+</div>
+<div class="text-right">
+<p class="text-white font-bold text-base">$150</p>
+<p class="text-slate-500 text-xs">of $500</p>
+</div>
+</div>
+<div class="relative z-10">
+<div class="flex justify-between mb-2">
+<span class="text-xs font-medium text-primary">30% Used</span>
+<span class="text-xs font-medium text-slate-400">$350 Left</span>
+</div>
+<div class="h-3 w-full bg-slate-800/50 rounded-full overflow-hidden border border-white/5">
+<div class="h-full bg-primary rounded-full shadow-neon-blue w-[30%]"></div>
+</div>
+</div>
+</div>
+<!-- Transport Card (Healthy) -->
+<div class="glass-card rounded-2xl p-5 relative overflow-hidden group opacity-80 hover:opacity-100 transition-opacity">
+<div class="flex justify-between items-start mb-4 relative z-10">
+<div class="flex items-center gap-4">
+<div class="size-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-slate-300">
+<span class="material-symbols-outlined text-[24px]">directions_car</span>
+</div>
+<div>
+<h4 class="text-base font-bold text-white">Transport</h4>
+<p class="text-xs text-slate-400 mt-0.5">Fuel, Public Transit</p>
+</div>
+</div>
+<div class="text-right">
+<p class="text-white font-bold text-base">$120</p>
+<p class="text-slate-500 text-xs">of $300</p>
+</div>
+</div>
+<div class="relative z-10">
+<div class="flex justify-between mb-2">
+<span class="text-xs font-medium text-primary">40% Used</span>
+<span class="text-xs font-medium text-slate-400">$180 Left</span>
+</div>
+<div class="h-3 w-full bg-slate-800/50 rounded-full overflow-hidden border border-white/5">
+<div class="h-full bg-primary rounded-full shadow-neon-blue w-[40%]"></div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Floating Action Button -->
+<button class="fixed bottom-24 right-6 z-40 size-14 rounded-full bg-primary text-white shadow-[0_0_20px_rgba(13,166,242,0.6)] flex items-center justify-center hover:scale-105 transition-transform active:scale-95 border border-white/20">
+<span class="material-symbols-outlined text-[28px]">add</span>
+</button>
+<!-- Bottom Navigation -->
+<nav class="fixed bottom-0 w-full bg-[#101c22]/90 backdrop-blur-xl border-t border-white/10 pb-6 pt-3 px-6 z-50">
+<ul class="flex justify-between items-center max-w-lg mx-auto">
+<li>
+<a class="flex flex-col items-center gap-1 text-slate-400 hover:text-white transition-colors group" href="#">
+<span class="material-symbols-outlined group-hover:-translate-y-0.5 transition-transform">grid_view</span>
+<span class="text-[10px] font-medium">Overview</span>
+</a>
+</li>
+<li>
+<a class="flex flex-col items-center gap-1 text-primary shadow-[0_0_15px_rgba(13,166,242,0.3)] rounded-xl px-4 py-1 bg-white/5 border border-white/5" href="#">
+<span class="material-symbols-outlined fill-current">account_balance_wallet</span>
+<span class="text-[10px] font-bold">Budgets</span>
+</a>
+</li>
+<li>
+<a class="flex flex-col items-center gap-1 text-slate-400 hover:text-white transition-colors group" href="#">
+<span class="material-symbols-outlined group-hover:-translate-y-0.5 transition-transform">insights</span>
+<span class="text-[10px] font-medium">Stats</span>
+</a>
+</li>
+<li>
+<a class="flex flex-col items-center gap-1 text-slate-400 hover:text-white transition-colors group" href="#">
+<span class="material-symbols-outlined group-hover:-translate-y-0.5 transition-transform">settings</span>
+<span class="text-[10px] font-medium">Settings</span>
+</a>
+</li>
+</ul>
+</nav>
+</body></html>

@@ -204,6 +204,11 @@ export const DataManager = {
 
                 if (accountTxs.length === 0) continue;
 
+                // Sort: Oldest to Newest (Ascending) BEFORE processing balance
+                accountTxs.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+
+                let currentBalance = account.initialBalance;
+
                 // Map Data
                 const sheetData = accountTxs.map(tx => {
                     const category = categories.find(c => c.id === tx.categoryId);
@@ -225,21 +230,24 @@ export const DataManager = {
                         }
                     }
 
+                    const saldoInicial = currentBalance;
+                    const saldoFinal = currentBalance + amount;
+                    currentBalance = saldoFinal;
+
                     return {
                         Fecha: format(new Date(tx.date), 'yyyy-MM-dd'),
                         Hora: format(new Date(tx.createdAt), 'HH:mm'),
                         Tipo: tx.type,
                         Categoria: category?.name || (tx.type === 'TRANSFER' ? 'Transferencia' : 'Sin Categoría'),
                         Nota: tx.note || '',
+                        Saldo_Inicial: saldoInicial,
                         Monto: amount,
+                        Saldo_Final: saldoFinal,
                         Moneda: account.currency,
                         Contraparte: transferPartner ? transferPartner.name : (tx.payee || ''),
                         Estado: tx.status
                     };
                 });
-
-                // Sort: Oldest to Newest (Ascending)
-                sheetData.sort((a, b) => new Date(a.Fecha).getTime() - new Date(b.Fecha).getTime());
 
                 // Create Sheet
                 const ws = utils.json_to_sheet(sheetData);
@@ -247,7 +255,7 @@ export const DataManager = {
                 // Auto-width columns
                 const wscols = [
                     { wch: 12 }, { wch: 8 }, { wch: 12 }, { wch: 20 },
-                    { wch: 25 }, { wch: 12 }, { wch: 8 }, { wch: 20 }, { wch: 10 }
+                    { wch: 25 }, { wch: 15 }, { wch: 12 }, { wch: 15 }, { wch: 8 }, { wch: 20 }, { wch: 10 }
                 ];
                 ws['!cols'] = wscols;
 

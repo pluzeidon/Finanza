@@ -22,7 +22,7 @@ export function Dashboard() {
             type: result.type || 'EXPENSE',
             categoryId: result.categoryId || '',
             accountId: result.accountId || '',
-            note: result.originalText,
+            note: result.note || '', // Use parsed note
             date: new Date().toISOString()
         });
         setIsAddOpen(true);

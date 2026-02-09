@@ -77,12 +77,22 @@ export const useVoiceTransaction = () => {
             categoryId = matchedCategory.id;
         }
 
+        // 5. Detect Note (Concept)
+        let note = text;
+        const conceptIndex = lowerText.indexOf('concepto');
+        if (conceptIndex !== -1) {
+            // Extract everything after "concepto "
+            note = text.substring(conceptIndex + 8).trim();
+            // Capitalize first letter of note
+            note = note.charAt(0).toUpperCase() + note.slice(1);
+        }
+
         setResult({
             amount,
             type,
             categoryId,
             accountId,
-            note: text, // Use full text as note initially
+            note,
             originalText: text
         });
     };

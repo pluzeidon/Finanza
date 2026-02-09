@@ -23,7 +23,7 @@ export function Dashboard() {
             categoryId: result.categoryId || '',
             accountId: result.accountId || '',
             note: result.note || '', // Use parsed note
-            date: new Date().toISOString()
+            date: new Date().toISOString().split('T')[0]
         });
         setIsAddOpen(true);
         reset(); // Clear result so it doesn't loop

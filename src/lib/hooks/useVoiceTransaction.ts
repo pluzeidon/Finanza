@@ -78,7 +78,7 @@ export const useVoiceTransaction = () => {
         }
 
         // 5. Detect Note (Concept)
-        let note = text;
+        let note = '';
         const conceptIndex = lowerText.indexOf('concepto');
         if (conceptIndex !== -1) {
             // Extract everything after "concepto "

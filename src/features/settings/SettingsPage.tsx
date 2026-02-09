@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 import { DataManager } from "../../lib/dataManager";
 import { Button } from "../../components/ui/button";
-import { Download, Upload, ShieldCheck, Trash2 } from "lucide-react";
+import { Download, Upload, ShieldCheck, Trash2, FileSpreadsheet } from "lucide-react";
 import { CategoryManager } from "../categories/CategoryManager";
 
 export function SettingsPage() {
@@ -88,13 +88,23 @@ export function SettingsPage() {
                     </p>
 
                     <div className="flex flex-col gap-3">
-                        <Button variant="outline" className="justify-start gap-4 h-12 bg-transparent border-white/10 hover:bg-white/5 text-slate-300 hover:text-white" onClick={handleExport}>
-                            <Download className="h-5 w-5 text-primary" />
-                            <div className="flex flex-col items-start">
-                                <span className="font-semibold text-sm">Exportar Copia de Seguridad</span>
-                                <span className="text-[10px] text-slate-500">Formato JSON seguro</span>
-                            </div>
-                        </Button>
+                        <div className="grid grid-cols-2 gap-3">
+                            <Button variant="outline" className="justify-start gap-3 h-14 bg-transparent border-white/10 hover:bg-white/5 text-slate-300 hover:text-white" onClick={handleExport}>
+                                <Download className="h-5 w-5 text-primary shrink-0" />
+                                <div className="flex flex-col items-start overflow-hidden">
+                                    <span className="font-semibold text-xs truncate w-full">Respaldo JSON</span>
+                                    <span className="text-[10px] text-slate-500 truncate w-full">Copia completa</span>
+                                </div>
+                            </Button>
+
+                            <Button variant="outline" className="justify-start gap-3 h-14 bg-transparent border-white/10 hover:bg-white/5 text-slate-300 hover:text-white" onClick={() => DataManager.exportToExcel()}>
+                                <FileSpreadsheet className="h-5 w-5 text-emerald-400 shrink-0" />
+                                <div className="flex flex-col items-start overflow-hidden">
+                                    <span className="font-semibold text-xs truncate w-full">Reporte Excel</span>
+                                    <span className="text-[10px] text-slate-500 truncate w-full">Para conciliación</span>
+                                </div>
+                            </Button>
+                        </div>
 
                         <div className="relative">
                             <Button variant="outline" className="w-full justify-start gap-4 h-12 bg-transparent border-white/10 hover:bg-white/5 text-slate-300 hover:text-white" onClick={handleImportClick} disabled={importing}>

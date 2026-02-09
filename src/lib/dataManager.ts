@@ -1,6 +1,7 @@
 import { db } from './db';
 import { saveAs } from 'file-saver';
 import { format } from 'date-fns';
+import { utils, writeFile } from 'xlsx';
 
 export const DataManager = {
     /**
@@ -165,6 +166,108 @@ export const DataManager = {
 
             reader.readAsText(file);
         });
+    },
+
+    exportToExcel: async () => {
+        try {
+            const [accounts, transactions, categories] = await Promise.all([
+                db.accounts.toArray(),
+                db.transactions.toArray(),
+                db.categories.toArray()
+            ]);
+
+            const wb = utils.book_new();
+
+            // 1. Sheet: "Resumen Cuentas"
+            const accData = accounts.map(acc => ({
+                Nombre: acc.name,
+                Tipo: acc.type,
+                Moneda: acc.currency,
+                Balance_Actual: acc.initialBalance,
+                Color: acc.color,
+                Creada: format(new Date(acc.createdAt), 'yyyy-MM-dd')
+            }));
+            const wsAcc = utils.json_to_sheet(accData);
+
+            // Auto-width columns for Accounts
+            const accCols = [{ wch: 20 }, { wch: 10 }, { wch: 8 }, { wch: 15 }, { wch: 10 }, { wch: 12 }];
+            wsAcc['!cols'] = accCols;
+
+            utils.book_append_sheet(wb, wsAcc, "Resumen Cuentas");
+
+            // 2. Sheets: One per Account (Transactions)
+            for (const account of accounts) {
+                // Filter transactions for this account (Source or Destination)
+                const accountTxs = transactions.filter(tx =>
+                    tx.accountId === account.id || tx.transferToAccountId === account.id
+                );
+
+                if (accountTxs.length === 0) continue;
+
+                // Map Data
+                const sheetData = accountTxs.map(tx => {
+                    const category = categories.find(c => c.id === tx.categoryId);
+                    const isTransferOrigin = tx.accountId === account.id;
+                    const transferPartnerId = isTransferOrigin ? tx.transferToAccountId : tx.accountId;
+                    const transferPartner = transferPartnerId ? accounts.find(a => a.id === transferPartnerId) : null;
+
+                    // Determine amount sign relative to this account
+                    let amount = tx.amount;
+                    if (tx.type === 'EXPENSE') {
+                        amount = -Math.abs(tx.amount);
+                    } else if (tx.type === 'INCOME') {
+                        amount = Math.abs(tx.amount);
+                    } else if (tx.type === 'TRANSFER') {
+                        if (isTransferOrigin) {
+                            amount = -Math.abs(tx.amount); // Outgoing
+                        } else {
+                            amount = Math.abs(tx.amount); // Incoming
+                        }
+                    }
+
+                    return {
+                        Fecha: format(new Date(tx.date), 'yyyy-MM-dd'),
+                        Hora: format(new Date(tx.createdAt), 'HH:mm'),
+                        Tipo: tx.type,
+                        Categoria: category?.name || (tx.type === 'TRANSFER' ? 'Transferencia' : 'Sin Categoría'),
+                        Nota: tx.note || '',
+                        Monto: amount,
+                        Moneda: account.currency,
+                        Contraparte: transferPartner ? transferPartner.name : (tx.payee || ''),
+                        Estado: tx.status
+                    };
+                });
+
+                // Sort: Oldest to Newest (Ascending)
+                sheetData.sort((a, b) => new Date(a.Fecha).getTime() - new Date(b.Fecha).getTime());
+
+                // Create Sheet
+                const ws = utils.json_to_sheet(sheetData);
+
+                // Auto-width columns
+                const wscols = [
+                    { wch: 12 }, { wch: 8 }, { wch: 12 }, { wch: 20 },
+                    { wch: 25 }, { wch: 12 }, { wch: 8 }, { wch: 20 }, { wch: 10 }
+                ];
+                ws['!cols'] = wscols;
+
+                // Sanitize sheet name
+                let sheetName = account.name.replace(/[:\\\/?*\[\]]/g, '').substring(0, 30);
+                if (wb.SheetNames.includes(sheetName)) {
+                    sheetName = `${sheetName}_${account.id.substring(0, 4)}`;
+                }
+
+                utils.book_append_sheet(wb, ws, sheetName);
+            }
+
+            // 3. Write File
+            writeFile(wb, `Finanza_Detallado_${format(new Date(), 'yyyy-MM-dd')}.xlsx`);
+
+            return true;
+        } catch (error) {
+            console.error('Excel Export failed:', error);
+            throw error;
+        }
     },
 
     clearAll: async () => {

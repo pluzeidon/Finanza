@@ -43,7 +43,7 @@ export function Dashboard() {
         const accounts = await AccountRepository.getActive();
         const transactions = await db.transactions.toArray();
 
-        // Net Worth
+        // Net Worth sdsdfsd
         const netWorth = FinanceEngine.calculateNetWorth(accounts, transactions);
 
         // Current Month Cash Flow

@@ -6,12 +6,28 @@ import { Dialog } from "../../components/ui/dialog";
 import { TransactionForm } from "../transactions/TransactionForm";
 import { RecentTransactions } from "../transactions/RecentTransactions";
 import { db } from "../../lib/db";
-import { Bell, CreditCard, Grid, Plus, ArrowRightLeft, ScanLine, TrendingUp } from "lucide-react";
+import { Bell, CreditCard, Grid, Plus, ArrowRightLeft, ScanLine, TrendingUp, Mic } from "lucide-react";
 import { AreaChart, Area, ResponsiveContainer, Tooltip } from 'recharts';
+import { useVoiceTransaction } from "../../lib/hooks/useVoiceTransaction";
 
 export function Dashboard() {
     const [isAddOpen, setIsAddOpen] = useState(false);
     const [editingTransaction, setEditingTransaction] = useState<any | null>(null);
+    const { isListening, result, startListening, stopListening, reset } = useVoiceTransaction();
+
+    // Auto-open modal when voice result is ready
+    if (result && !isAddOpen) {
+        setEditingTransaction({
+            amount: result.amount || 0,
+            type: result.type || 'EXPENSE',
+            categoryId: result.categoryId || '',
+            accountId: result.accountId || '',
+            note: result.originalText,
+            date: new Date().toISOString()
+        });
+        setIsAddOpen(true);
+        reset(); // Clear result so it doesn't loop
+    }
 
     const handleCreate = () => {
         setEditingTransaction(null);
@@ -206,6 +222,16 @@ export function Dashboard() {
                 {/* Recent Activity */}
                 <RecentTransactions onEdit={handleEdit} />
 
+            </div>
+
+            {/* Voice Transaction FAB */}
+            <div className={`fixed bottom-40 right-6 md:right-[calc(50%-20px)] md:translate-x-[200px] z-40 transition-all duration-300 ${isListening ? 'scale-110' : 'hover:scale-105'}`}>
+                <div className="relative group cursor-pointer" onClick={isListening ? stopListening : startListening}>
+                    <div className={`absolute inset-0 rounded-full blur-md transition-all ${isListening ? 'bg-red-500/60 animate-ping' : 'bg-primary/40 group-hover:bg-primary/60'}`}></div>
+                    <button className={`relative flex items-center justify-center size-14 rounded-full text-white shadow-xl border-[4px] border-[#101c22] transition-colors ${isListening ? 'bg-red-500' : 'bg-gradient-to-br from-purple-500 to-indigo-600'}`}>
+                        <Mic size={24} className={isListening ? 'animate-pulse' : ''} />
+                    </button>
+                </div>
             </div>
 
             {/* FAB - QR Action (Visual Only for now) */}
